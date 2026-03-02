@@ -44,5 +44,4 @@ Thumbs.db
 !package.json
 design/
 assets/fonts
-preview
 *.css.map
