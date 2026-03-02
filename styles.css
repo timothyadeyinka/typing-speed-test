@@ -15,10 +15,27 @@ body {
   padding: 1rem;
 }
 
+/* Header */
 header div.header-top, header div.header-bottom div.labels, header div.header-bottom div.dropdown {
   display: flex;
   justify-content: space-between;
   flex-direction: row;
+  align-items: center;
+}
+header .left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+header .left h1 {
+  font-size: 1.5rem;
+}
+header .left p {
+  font-size: 0.75rem;
+  color: hsl(240, 1%, 59%);
+}
+header div.header-top {
+  margin-bottom: 2rem;
 }
 header div.header-top span.txt {
   color: hsl(240, 3%, 46%);

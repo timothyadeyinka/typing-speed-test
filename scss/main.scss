@@ -30,7 +30,7 @@ body {
   background: $Neutral-900;
   padding: 1rem;
 }
-
+/* Header */
 header {
   & div.header-top,
   & div.header-bottom div.labels,
@@ -38,9 +38,23 @@ header {
     display: flex;
     justify-content: space-between;
     flex-direction: row;
+    align-items: center;
+  }
+  & .left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    & h1 {
+      font-size: 1.5rem;
+    }
+    & p {
+      font-size: 0.75rem;
+      color: $Neutral-400;
+    }
   }
 
   & div.header-top {
+    margin-bottom: 2rem;
     & span.txt {
       color: $Neutral-500;
     }
