@@ -1,3 +1,63 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
+body {
+  font-size: 1rem;
+  font-family: "Sora", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  color: hsl(0, 0%, 100%);
+  background: hsl(0, 0%, 7%);
+  padding: 1rem;
+}
+
+header div.header-top, header div.header-bottom div.labels, header div.header-bottom div.dropdown {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+}
+header div.header-bottom {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 0.5rem;
+}
+header div.header-bottom > * {
+  padding: 0.5rem 0;
+}
+header div.header-bottom div.labels div {
+  padding: 1rem;
+  text-align: center;
+  color: hsl(240, 3%, 46%);
+}
+header div.header-bottom div.labels div span {
+  display: block;
+  color: hsl(0, 0%, 100%);
+  font-size: 1.5rem;
+}
+header div.header-bottom div.labels div:nth-child(2) {
+  border-left: 1px solid hsl(0, 0%, 15%);
+  border-right: 1px solid hsl(0, 0%, 15%);
+}
+header div.header-bottom div.dropdown {
+  justify-content: flex-start;
+  gap: 1rem;
+}
+header div.header-bottom div.dropdown div.radio {
+  text-align: center;
+  border: 1px solid hsl(0, 0%, 15%);
+  border-radius: 0.5rem;
+  width: 50%;
+  padding: 0.5rem 0.25rem;
+}
+header div.header-bottom div.dropdown div.radio div.options {
+  display: none;
+}
+header {
+  border-bottom: 1px solid hsl(0, 0%, 15%);
+}
 
 /*# sourceMappingURL=styles.css.map */
