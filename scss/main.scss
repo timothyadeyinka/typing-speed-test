@@ -1,0 +1,108 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+// Neutral
+$Neutral-900: hsl(0, 0%, 7%);
+$Neutral-800: hsl(0, 0%, 15%);
+$Neutral-500: hsl(240, 3%, 46%);
+$Neutral-400: hsl(240, 1%, 59%);
+$Neutral-0: hsl(0, 0%, 100%);
+// Blue
+$Blue-600: hsl(214, 100%, 55%);
+$Blue-400: hsl(210, 100%, 65%);
+// Red
+$Red-500: hsl(354, 63%, 57%);
+// Green
+$Green-500: hsl(140, 63%, 57%);
+// Yellow
+$Yellow-400: hsl(49, 85%, 70%);
+
+body {
+  font-size: 1rem;
+  font-family: "Sora", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  color: $Neutral-0;
+  background: $Neutral-900;
+  padding: 1rem;
+}
+/* Header */
+header {
+  & div.header-top,
+  & div.header-bottom div.labels,
+  & div.header-bottom div.dropdown {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+  }
+  & .left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    & h1 {
+      font-size: 1.5rem;
+    }
+    & p {
+      font-size: 0.75rem;
+      color: $Neutral-400;
+    }
+  }
+
+  & div.header-top {
+    margin-bottom: 2rem;
+    & span.txt {
+      color: $Neutral-500;
+    }
+  }
+
+  & div.header-bottom {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 0.5rem;
+
+    & > * {
+      padding: 0.5rem 0;
+    }
+
+    & div.labels {
+      & div {
+        padding: 1rem;
+        text-align: center;
+        color: $Neutral-500;
+
+        & span {
+          display: block;
+          color: $Neutral-0;
+          font-size: 1.5rem;
+        }
+      }
+
+      & div:nth-child(2) {
+        border-left: 1px solid $Neutral-800;
+        border-right: 1px solid $Neutral-800;
+      }
+    }
+
+    & div.dropdown {
+      justify-content: flex-start;
+      gap: 1rem;
+      & div.radio {
+        text-align: center;
+        border: 1px solid $Neutral-800;
+        border-radius: 0.5rem;
+        width: 50%;
+        padding: 0.5rem 0.25rem;
+        & div.options {
+          display: none;
+        }
+      }
+    }
+  }
+
+  border-bottom: 1px solid $Neutral-800;
+}
