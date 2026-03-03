@@ -28,7 +28,10 @@ body {
   font-style: normal;
   color: $Neutral-0;
   background: $Neutral-900;
-  padding: 1rem;
+  padding: 2rem 6rem;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 /* Header */
 header {
@@ -37,6 +40,7 @@ header {
     justify-content: space-between;
     flex-direction: row;
     align-items: center;
+    margin-bottom: 2rem;
   }
   & .left {
     display: flex;
@@ -52,43 +56,157 @@ header {
   }
 
   & div.header-top {
-    margin-bottom: 2rem;
     & span.txt {
       color: $Neutral-500;
     }
   }
+  & .p-best {
+    font-size: 1.25rem;
+  }
+}
+.stats {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0;
+  border-bottom: 1px solid $Neutral-400;
+  flex-wrap: wrap;
+  & .stats-container {
+    display: flex;
+    gap: 2rem;
+    font-size: 1.5rem;
 
-  & div.header-bottom {
+    & .labels {
+      display: flex;
+      gap: 0.5rem;
+    }
+    & .stat-label {
+      color: $Neutral-400;
+    }
+    & .stat-num {
+      color: $Neutral-0;
+      font-weight: 600;
+    }
+    & .labels:nth-last-child(2) {
+      border-left: 1px solid $Neutral-400;
+      border-right: 1px solid $Neutral-400;
+      padding: 0 1.5rem;
+    }
+  }
+  & .controls {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-
-    & > * {
-      padding: 0.5rem 0;
-    }
-    & .label-container {
+    gap: 1rem;
+    & .difficulty {
       display: flex;
       align-items: center;
-      gap: 1rem;
-      & div.labels {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        border: 1px solid;
-        padding: 0 1rem;
+      gap: 0.5rem;
+      border-right: 1px solid $Neutral-400;
+      padding-right: 1rem;
 
-        & .labels:nth-child(2) {
-          border-left: 1px solid $Neutral-800;
-          border-right: 1px solid $Neutral-800;
-        }
+      & p {
+        color: $Neutral-400;
+        font-size: 1rem;
+        font-weight: 500;
+      }
+      & .diff-btn {
+        background-color: transparent;
+        color: $Neutral-0;
+        padding: 0.3rem 0.8rem;
+        border-radius: 0.5rem;
+        border: 1px solid $Neutral-400;
+        font-weight: 400;
+        font-family: "Sora", sans-serif;
+      }
+      & .active {
+        border: 1px solid $Blue-400;
+        color: $Blue-400;
+      }
+    }
+    & .mode {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      & p {
+        color: $Neutral-400;
+        font-size: 1rem;
+        font-weight: 500;
+      }
+      & .mode-btn {
+        background-color: transparent;
+        color: $Neutral-0;
+        border-color: none;
+        padding: 0.3rem 0.8rem;
+        border-radius: 0.5rem;
+        border: 1px solid $Neutral-400;
+        font-weight: 400;
+        font-family: "Sora", sans-serif;
+      }
+      & .active {
+        border: 1px solid $Blue-400;
+        color: $Blue-400;
       }
     }
   }
-
-  border-bottom: 1px solid $Neutral-800;
 }
-
+/*----------------------------
+-----------------------------
+     main content
+-----------------------------
+----------------------------*/
+main {
+  & .typing-area {
+    position: relative;
+    & .typing-container {
+      width: 100%;
+      font-size: 2rem;
+      line-height: 1.8;
+      opacity: 0.6;
+      color: $Neutral-500;
+      font-family: "Sora", sans-serif;
+    }
+    & .blur {
+      filter: blur(2px);
+      pointer-events: none;
+      user-select: none;
+    }
+    & .type-input {
+      width: 100%;
+      padding: 1rem;
+      background-color: $Neutral-900;
+      border: none;
+      font-size: 1rem;
+      color: $Neutral-900;
+      outline: none;
+      resize: none;
+    }
+    & .type-input:disabled {
+      opacity: 0.5;
+    }
+  }
+  .start-section {
+    position: absolute;
+    top: 45%;
+    left: 40%;
+    text-align: center;
+    & .start-btn {
+      background-color: $Blue-600;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 1rem;
+      color: $Neutral-0;
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      font-family: "Sora", sans-serif;
+    }
+  }
+}
 @media (max-width: 760px) {
+  body {
+    padding: 1rem 2rem;
+  }
   header {
     & div.header-bottom {
       display: flex;

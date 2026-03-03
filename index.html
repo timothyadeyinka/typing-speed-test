@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="styles.css">
   <script src="main.js" defer></script>
 
-  <title>Timothy Adeyinka | Typing Speed Test</title>
+  <title> Typing Speed Test</title>
 
 </head>
 
@@ -36,58 +36,68 @@
         <span class="txt">Personal Best:</span>&nbsp;<span class="achieved">92 WPM</span>
       </div>
     </div>
-    <!----------------header-bottom---------------------------->
-    <!----------------stats---------------------------->
-    <div class="header-bottom">
-      <div class="label-container">
-        <div class="labels">
-          <span class="stat-label">WPM:</span>
-          <span class="stat-num">0</span>
-        </div>
-        <div class="labels">
-          <span class="stat-label">Accuracy:</span>
-          <span class="stat-num">100%</span>
-        </div>
-        <div class="labels">
-          <span class="stat-label">Time:</span>
-          <span class="stat-num">0:60</span>
-        </div>
-
-      </div>
-      <!-----------------------Difficullty------------------------>
-      <div class="dropdown">
-        <!--------------difficulty selector but they become stacked in mobile views -->
-        <div class="difficulty-group">
-          <span class="diff-label">
-            Difficulty:
-          </span>
-          <div class="radio-button">Hard <img src="assets/images/icon-down-arrow.svg" alt="dropdown icon-down-arrow">
-          </div>
-          <div class="options">
-            <form>
-              <input type="radio" id="easy" name="easy" value="easy">
-              <label for="easy">Easy</label>
-              <input type="radio" id="medium" name="medium" value="medium">
-              <label for="medium">Medium</label>
-              <input type="radio" id="hard" name="hard" value="hard">
-              <label for="hard">Hard</label>
-            </form>
-          </div>
-        </div>
-        <div class="radio mode">
-          <div>Timed(60s) <img src="assets/images/icon-down-arrow.svg" alt="dropdown icon-down-arrow"></div>
-          <div class="options">
-            <form>
-              <input type="radio" id="timed" name="timed" value="timed">
-              <label for="timed">Timed (60s)</label>
-              <input type="radio" id="passage" name="passage" value="passage">
-              <label for="passage">Passage</label>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
   </header>
+  <!----------------stats---------------------------->
+  <section class="stats">
+    <div class="stats-container">
+      <div class="labels">
+        <span class="stat-label">WPM:</span>
+        <span class="stat-num">0</span>
+      </div>
+      <div class="labels">
+        <span class="stat-label">Accuracy:</span>
+        <span class="stat-num">100%</span>
+      </div>
+      <div class="labels">
+        <span class="stat-label">Time:</span>
+        <span class="stat-num">0:60</span>
+      </div>
+
+    </div>
+    <!-----------------------Difficullty------------------------>
+    <section class="controls">
+      <!--------------difficulty selector but they become stacked in mobile views -->
+      <div class="difficulty">
+        <p>
+          Difficulty:
+        </p>
+        <button class="diff-btn">Easy</button>
+        <button class="diff-btn">Medium</button>
+        <button class="diff-btn active">Hard</button>
+      </div>
+      <div class="mode">
+        <p>Mode:</p>
+        <button class="mode-btn active">Timed(60s)</button>
+        <button class="mode-btn">Passage</button>
+      </div>
+
+    </section>
+  </section>
+  <main>
+    <!-------------------------typing-area---------------------->
+
+    <section class="typing-area">
+      <div class="typing-container blur">
+        <p id="text">"The archaeological expedition unearthed artifacts that complicated prevailing theories about
+          Bronze Age trade networks.
+          Obsidian from Anatolia, lapis lazuli from Afghanistan, and amber from the Baltic—all discovered in a single
+          Mycenaean
+          tomb—suggested commercial connections far more extensive than previously hypothesized. \"We've underestimated
+          ancient
+          peoples' navigational capabilities and their appetite for luxury goods,\" the lead researcher observed.
+          \"Globalization
+          isn't as modern as we assume.</p>
+      </div>
+      <textarea class="type-input" name="type-area" id="type-area" placeholder="Start typing here..."
+        disabled></textarea>
+      <div class="start-section">
+        <button class="start-btn">Start Typing Test</button>
+        <p>or click the text and start typing</p>
+      </div>
+    </section>
+
+  </main>
+
 
 </body>
 

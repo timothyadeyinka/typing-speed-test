@@ -1,0 +1,73 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-size: 1rem;
+  font-family: "Sora", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  color: hsl(0, 0%, 100%);
+  background: hsl(0, 0%, 7%);
+  padding: 1rem;
+}
+
+/* Header */
+header div.header-top {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+header .left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+header .left h1 {
+  font-size: 1.5rem;
+}
+header .left p {
+  font-size: 0.75rem;
+  color: hsl(240, 1%, 59%);
+}
+header div.header-top span.txt {
+  color: hsl(240, 3%, 46%);
+}
+
+.stats {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.stats .stats-container {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+.stats .stats-container .labels {
+  display: flex;
+  gap: 0.5rem;
+}
+.stats .stats-container .labels .stat-label {
+  color: hsl(240, 1%, 59%);
+}
+.stats .stats-container .labels .stat-num {
+  color: hsl(0, 0%, 100%);
+  font-weight: 600;
+}
+.stats .control {
+  display: flex;
+}
+
+@media (max-width: 760px) {
+  header div.header-bottom {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}/*# sourceMappingURL=main.css.map */

@@ -12,7 +12,10 @@ body {
   font-style: normal;
   color: hsl(0, 0%, 100%);
   background: hsl(0, 0%, 7%);
-  padding: 1rem;
+  padding: 2rem 6rem;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Header */
@@ -21,6 +24,7 @@ header div.header-top {
   justify-content: space-between;
   flex-direction: row;
   align-items: center;
+  margin-bottom: 2rem;
 }
 header .left {
   display: flex;
@@ -34,41 +38,153 @@ header .left p {
   font-size: 0.75rem;
   color: hsl(240, 1%, 59%);
 }
-header div.header-top {
-  margin-bottom: 2rem;
-}
 header div.header-top span.txt {
   color: hsl(240, 3%, 46%);
 }
-header div.header-bottom {
+header .p-best {
+  font-size: 1.25rem;
+}
+
+.stats {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 1rem 0;
+  border-bottom: 1px solid hsl(240, 1%, 59%);
+  flex-wrap: wrap;
 }
-header div.header-bottom > * {
-  padding: 0.5rem 0;
+.stats .stats-container {
+  display: flex;
+  gap: 2rem;
+  font-size: 1.5rem;
 }
-header div.header-bottom .label-container {
+.stats .stats-container .labels {
+  display: flex;
+  gap: 0.5rem;
+}
+.stats .stats-container .stat-label {
+  color: hsl(240, 1%, 59%);
+}
+.stats .stats-container .stat-num {
+  color: hsl(0, 0%, 100%);
+  font-weight: 600;
+}
+.stats .stats-container .labels:nth-last-child(2) {
+  border-left: 1px solid hsl(240, 1%, 59%);
+  border-right: 1px solid hsl(240, 1%, 59%);
+  padding: 0 1.5rem;
+}
+.stats .controls {
   display: flex;
   align-items: center;
   gap: 1rem;
 }
-header div.header-bottom .label-container div.labels {
+.stats .controls .difficulty {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  border: 1px solid;
-  padding: 0 1rem;
+  border-right: 1px solid hsl(240, 1%, 59%);
+  padding-right: 1rem;
 }
-header div.header-bottom .label-container div.labels .labels:nth-child(2) {
-  border-left: 1px solid hsl(0, 0%, 15%);
-  border-right: 1px solid hsl(0, 0%, 15%);
+.stats .controls .difficulty p {
+  color: hsl(240, 1%, 59%);
+  font-size: 1rem;
+  font-weight: 500;
 }
-header {
-  border-bottom: 1px solid hsl(0, 0%, 15%);
+.stats .controls .difficulty .diff-btn {
+  background-color: transparent;
+  color: hsl(0, 0%, 100%);
+  padding: 0.3rem 0.8rem;
+  border-radius: 0.5rem;
+  border: 1px solid hsl(240, 1%, 59%);
+  font-weight: 400;
+  font-family: "Sora", sans-serif;
+}
+.stats .controls .difficulty .active {
+  border: 1px solid hsl(210, 100%, 65%);
+  color: hsl(210, 100%, 65%);
+}
+.stats .controls .mode {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.stats .controls .mode p {
+  color: hsl(240, 1%, 59%);
+  font-size: 1rem;
+  font-weight: 500;
+}
+.stats .controls .mode .mode-btn {
+  background-color: transparent;
+  color: hsl(0, 0%, 100%);
+  border-color: none;
+  padding: 0.3rem 0.8rem;
+  border-radius: 0.5rem;
+  border: 1px solid hsl(240, 1%, 59%);
+  font-weight: 400;
+  font-family: "Sora", sans-serif;
+}
+.stats .controls .mode .active {
+  border: 1px solid hsl(210, 100%, 65%);
+  color: hsl(210, 100%, 65%);
+}
+
+/*----------------------------
+-----------------------------
+     main content
+-----------------------------
+----------------------------*/
+main .typing-area {
+  position: relative;
+}
+main .typing-area .typing-container {
+  width: 100%;
+  font-size: 2rem;
+  line-height: 1.8;
+  opacity: 0.6;
+  color: hsl(240, 3%, 46%);
+  font-family: "Sora", sans-serif;
+}
+main .typing-area .blur {
+  filter: blur(2px);
+  pointer-events: none;
+  user-select: none;
+}
+main .typing-area .type-input {
+  width: 100%;
+  padding: 1rem;
+  background-color: hsl(0, 0%, 7%);
+  border: none;
+  font-size: 1rem;
+  color: hsl(0, 0%, 7%);
+  outline: none;
+  resize: none;
+}
+main .typing-area .type-input:disabled {
+  opacity: 0.5;
+}
+main .start-section {
+  position: absolute;
+  top: 45%;
+  left: 40%;
+  text-align: center;
+}
+main .start-section .start-btn {
+  background-color: hsl(214, 100%, 55%);
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 1rem;
+  color: hsl(0, 0%, 100%);
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  font-family: "Sora", sans-serif;
 }
 
 @media (max-width: 760px) {
+  body {
+    padding: 1rem 2rem;
+  }
   header div.header-bottom {
     display: flex;
     flex-direction: row;
