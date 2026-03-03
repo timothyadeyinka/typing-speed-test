@@ -71,13 +71,14 @@ header {
 
     & div.labels {
       & div {
-        padding: 1rem;
+        padding: 0 1rem;
         text-align: center;
         color: $Neutral-500;
 
         & span {
           display: block;
           color: $Neutral-0;
+          font-weight: bolder;
           font-size: 1.5rem;
         }
       }
@@ -92,6 +93,7 @@ header {
       justify-content: flex-start;
       gap: 1rem;
       color: $Neutral-400;
+
       & div.radio {
         text-align: center;
         border: 1px solid $Neutral-800;
@@ -101,6 +103,25 @@ header {
         & div.options {
           display: none;
         }
+        & div input[type="button"] {
+          background: transparent;
+          outline: 0;
+          color: $Neutral-0;
+          padding: 0 0.5rem;
+          border: 1px solid $Neutral-500;
+          border-radius: 0.3rem;
+          margin: 0 0.25rem;
+          cursor: pointer;
+
+          &:hover {
+            border: 1px solid $Blue-600;
+            color: $Blue-600;
+          }
+        }
+      }
+
+      & p {
+        display: none;
       }
     }
   }
@@ -112,8 +133,63 @@ header {
   header {
     & div.header-bottom {
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
+      @media (min-width: 900px) {
+        flex-direction: row;
+      }
       justify-content: space-between;
+
+      & div.labels {
+        & div {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+
+          & span {
+            font-size: 1.2rem;
+          }
+        }
+      }
+      & div.dropdown {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        text-align: center;
+        align-items: center;
+
+        & div.radio {
+          border: none;
+          & div {
+            display: flex;
+          }
+        }
+
+        & div.radio.diff {
+          & div {
+            justify-content: flex-start;
+
+            & input:last-child {
+              border: 1px solid $Blue-400;
+              color: $Blue-400;
+            }
+          }
+        }
+
+        & div.radio.mode {
+          & div {
+            justify-content: flex-end;
+
+            & input:first-child {
+              border: 1px solid $Blue-400;
+              color: $Blue-400;
+            }
+          }
+        }
+
+        & p {
+          display: block;
+        }
+      }
     }
   }
 }

@@ -49,13 +49,14 @@ header div.header-bottom > * {
   padding: 0.5rem 0;
 }
 header div.header-bottom div.labels div {
-  padding: 1rem;
+  padding: 0 1rem;
   text-align: center;
   color: hsl(240, 3%, 46%);
 }
 header div.header-bottom div.labels div span {
   display: block;
   color: hsl(0, 0%, 100%);
+  font-weight: bolder;
   font-size: 1.5rem;
 }
 header div.header-bottom div.labels div:nth-child(2) {
@@ -77,6 +78,23 @@ header div.header-bottom div.dropdown div.radio {
 header div.header-bottom div.dropdown div.radio div.options {
   display: none;
 }
+header div.header-bottom div.dropdown div.radio div input[type=button] {
+  background: transparent;
+  outline: 0;
+  color: hsl(0, 0%, 100%);
+  padding: 0 0.5rem;
+  border: 1px solid hsl(240, 3%, 46%);
+  border-radius: 0.3rem;
+  margin: 0 0.25rem;
+  cursor: pointer;
+}
+header div.header-bottom div.dropdown div.radio div input[type=button]:hover {
+  border: 1px solid hsl(214, 100%, 55%);
+  color: hsl(214, 100%, 55%);
+}
+header div.header-bottom div.dropdown p {
+  display: none;
+}
 header {
   border-bottom: 1px solid hsl(0, 0%, 15%);
 }
@@ -84,8 +102,53 @@ header {
 @media (min-width: 600px) {
   header div.header-bottom {
     display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+}
+@media (min-width: 600px) and (min-width: 900px) {
+  header div.header-bottom {
+    flex-direction: row;
+  }
+}
+@media (min-width: 600px) {
+  header div.header-bottom div.labels div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  header div.header-bottom div.labels div span {
+    font-size: 1.2rem;
+  }
+  header div.header-bottom div.dropdown {
+    display: flex;
     flex-direction: row;
     justify-content: space-between;
+    text-align: center;
+    align-items: center;
+  }
+  header div.header-bottom div.dropdown div.radio {
+    border: none;
+  }
+  header div.header-bottom div.dropdown div.radio div {
+    display: flex;
+  }
+  header div.header-bottom div.dropdown div.radio.diff div {
+    justify-content: flex-start;
+  }
+  header div.header-bottom div.dropdown div.radio.diff div input:last-child {
+    border: 1px solid hsl(210, 100%, 65%);
+    color: hsl(210, 100%, 65%);
+  }
+  header div.header-bottom div.dropdown div.radio.mode div {
+    justify-content: flex-end;
+  }
+  header div.header-bottom div.dropdown div.radio.mode div input:first-child {
+    border: 1px solid hsl(210, 100%, 65%);
+    color: hsl(210, 100%, 65%);
+  }
+  header div.header-bottom div.dropdown p {
+    display: block;
   }
 }
 
