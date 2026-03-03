@@ -37,9 +37,6 @@ header .left p {
 header div.header-top {
   margin-bottom: 2rem;
 }
-header div.header-top span.txt {
-  color: hsl(240, 3%, 46%);
-}
 header div.header-bottom {
   display: flex;
   flex-direction: column;
@@ -65,7 +62,6 @@ header div.header-bottom div.labels div:nth-child(2) {
 header div.header-bottom div.dropdown {
   justify-content: flex-start;
   gap: 1rem;
-  color: hsl(240, 1%, 59%);
 }
 header div.header-bottom div.dropdown div.radio {
   text-align: center;
@@ -79,14 +75,6 @@ header div.header-bottom div.dropdown div.radio div.options {
 }
 header {
   border-bottom: 1px solid hsl(0, 0%, 15%);
-}
-
-@media (min-width: 600px) {
-  header div.header-bottom {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-  }
 }
 
 /*# sourceMappingURL=styles.css.map */
