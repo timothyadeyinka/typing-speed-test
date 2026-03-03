@@ -91,6 +91,7 @@ header {
     & div.dropdown {
       justify-content: flex-start;
       gap: 1rem;
+      color: $Neutral-400;
       & div.radio {
         text-align: center;
         border: 1px solid $Neutral-800;
@@ -105,4 +106,14 @@ header {
   }
 
   border-bottom: 1px solid $Neutral-800;
+}
+
+@media (min-width: 600px) {
+  header {
+    & div.header-bottom {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
 }
