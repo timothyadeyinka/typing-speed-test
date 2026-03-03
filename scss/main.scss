@@ -32,9 +32,7 @@ body {
 }
 /* Header */
 header {
-  & div.header-top,
-  & div.header-bottom div.labels,
-  & div.header-bottom div.dropdown {
+  & div.header-top {
     display: flex;
     justify-content: space-between;
     flex-direction: row;
@@ -62,45 +60,23 @@ header {
 
   & div.header-bottom {
     display: flex;
-    flex-direction: column;
-    padding-bottom: 0.5rem;
+    align-items: center;
+    justify-content: space-between;
 
     & > * {
       padding: 0.5rem 0;
     }
 
     & div.labels {
-      & div {
-        padding: 1rem;
-        text-align: center;
-        color: $Neutral-500;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      border: 1px solid;
+      padding: 0 1rem;
 
-        & span {
-          display: block;
-          color: $Neutral-0;
-          font-size: 1.5rem;
-        }
-      }
-
-      & div:nth-child(2) {
+      & .labels:nth-child(2) {
         border-left: 1px solid $Neutral-800;
         border-right: 1px solid $Neutral-800;
-      }
-    }
-
-    & div.dropdown {
-      justify-content: flex-start;
-      gap: 1rem;
-      color: $Neutral-400;
-      & div.radio {
-        text-align: center;
-        border: 1px solid $Neutral-800;
-        border-radius: 0.5rem;
-        width: 50%;
-        padding: 0.5rem 0.25rem;
-        & div.options {
-          display: none;
-        }
       }
     }
   }
@@ -108,7 +84,7 @@ header {
   border-bottom: 1px solid $Neutral-800;
 }
 
-@media (min-width: 600px) {
+@media (max-width: 760px) {
   header {
     & div.header-bottom {
       display: flex;
