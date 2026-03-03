@@ -66,17 +66,21 @@ header {
     & > * {
       padding: 0.5rem 0;
     }
-
-    & div.labels {
+    & .label-container {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
-      border: 1px solid;
-      padding: 0 1rem;
+      gap: 1rem;
+      & div.labels {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        border: 1px solid;
+        padding: 0 1rem;
 
-      & .labels:nth-child(2) {
-        border-left: 1px solid $Neutral-800;
-        border-right: 1px solid $Neutral-800;
+        & .labels:nth-child(2) {
+          border-left: 1px solid $Neutral-800;
+          border-right: 1px solid $Neutral-800;
+        }
       }
     }
   }

@@ -48,14 +48,19 @@ header div.header-bottom {
 header div.header-bottom > * {
   padding: 0.5rem 0;
 }
-header div.header-bottom div.labels {
+header div.header-bottom .label-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+header div.header-bottom .label-container div.labels {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   border: 1px solid;
   padding: 0 1rem;
 }
-header div.header-bottom div.labels .labels:nth-child(2) {
+header div.header-bottom .label-container div.labels .labels:nth-child(2) {
   border-left: 1px solid hsl(0, 0%, 15%);
   border-right: 1px solid hsl(0, 0%, 15%);
 }

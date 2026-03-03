@@ -39,21 +39,28 @@
     <!----------------header-bottom---------------------------->
     <!----------------stats---------------------------->
     <div class="header-bottom">
-      <div class="labels">
-        <span class="stat-label">WPM:</span>
-        <span class="stat-num">0</span>
-      </div>
-      <div class="labels">
-        <span class="stat-label">Accuracy:</span>
-        <span class="stat-num">100%</span>
-      </div>
-      <div class="labels">
-        <span class="stat-label">Time:</span>
-        <span class="stat-num">0:60</span>
+      <div class="label-container">
+        <div class="labels">
+          <span class="stat-label">WPM:</span>
+          <span class="stat-num">0</span>
+        </div>
+        <div class="labels">
+          <span class="stat-label">Accuracy:</span>
+          <span class="stat-num">100%</span>
+        </div>
+        <div class="labels">
+          <span class="stat-label">Time:</span>
+          <span class="stat-num">0:60</span>
+        </div>
+
       </div>
       <!-----------------------Difficullty------------------------>
       <div class="dropdown">
-        <div class="radio diff">
+        <!--------------difficulty selector but they become stacked in mobile views -->
+        <div class="difficulty-group">
+          <span class="diff-label">
+            Difficulty:
+          </span>
           <div class="radio-button">Hard <img src="assets/images/icon-down-arrow.svg" alt="dropdown icon-down-arrow">
           </div>
           <div class="options">
