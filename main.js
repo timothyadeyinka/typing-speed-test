@@ -7,6 +7,7 @@
 
 "use script";
 
+// DOM manipulation
 const diff = document.querySelector("div.diff");
 const mode = document.querySelector("div.mode");
 
@@ -15,17 +16,20 @@ const mediaQuery = window.matchMedia("(min-width: 600px)");
 const userHighScore = document.querySelector(".p-best span.txt");
 const large = "assets/images/logo-large.svg";
 const small = "assets/images/logo-small.svg";
+
 const diffSmall = `
- <div class="radio-button">Hard <img src="assets/images/icon-down-arrow.svg" alt="dropdown icon-down-arrow">
+ <div class="radio-button"><span>Hard </span><img src="assets/images/icon-down-arrow.svg" alt="dropdown icon-down-arrow">
           </div>
-          <div class="options">
+          <div class="options opt1 hidden">
             <form>
-              <input type="radio" id="easy" name="easy" value="easy">
-              <label for="easy">Easy</label>
-              <input type="radio" id="medium" name="medium" value="medium">
-              <label for="medium">Medium</label>
-              <input type="radio" id="hard" name="hard" value="hard">
-              <label for="hard">Hard</label>
+              <div> <input type="radio" id="easy" name="difficulty" value="Easy">
+              <label for="Easy">Easy</label> </div>
+             <div>  <input type="radio" id="medium" name="difficulty" value="Medium">
+              <label for="Medium">Medium</label>
+              </div>
+             <div>
+              <input type="radio" id="hard" name="difficulty" value="Hard" checked>
+              <label for="Hard">Hard</label> </div>
             </form>
           </div>
 `;
@@ -35,13 +39,15 @@ const diffLarge = `
             <input type="button" value="Medium"><input type="button" value="Hard">
           </div>`;
 const modeSmall = `
-  <div>Timed(60s) <img src="assets/images/icon-down-arrow.svg" alt="dropdown icon-down-arrow"></div>
-          <div class="options">
+  <div class="unlimited"><span>Timed(60s)</span><img src="assets/images/icon-down-arrow.svg" alt="dropdown icon-down-arrow"></div>
+          <div class="options opt2 hidden">
             <form>
-              <input type="radio" id="timed" name="timed" value="timed">
-              <label for="timed">Timed (60s)</label>
-              <input type="radio" id="passage" name="passage" value="passage">
-              <label for="passage">Passage</label>
+             <div> 
+              <input type="radio" id="timed" name="mode" value="Timed (60s)" checked>
+              <label for="Timed (60)">Timed (60s)</label> </div>
+             <div> 
+              <input type="radio" id="passage" name="mode" value="Passage">
+              <label for="Passage">Passage</label></div>
             </form>
           </div>
 `;
@@ -73,3 +79,57 @@ mediaQuery.addEventListener("change", (e) => {
 
 // Run on load
 applyLogo(mediaQuery.matches);
+
+// fetch .json file
+async function loadData() {
+  const response = await fetch("data.json");
+
+  const data = await response.json();
+  console.log(data);
+}
+
+loadData();
+
+// Dropdown declarations must not be moved up because it will return value:null as it has not been inserted in the DOM until line 67 & 68;
+const diffUpdate = document.querySelector("div.radio-button span");
+const modeUpdate = document.querySelector("div.unlimited span");
+const diffOption = document.querySelector("div.opt1");
+const modeOption = document.querySelector("div.opt2");
+const diffPicked = document.querySelectorAll("div.opt1 form div input");
+const modePicked = document.querySelectorAll("div.opt2 form div");
+const diffDrop = document.querySelector("div.radio-button");
+const modeDrop = document.querySelector("div.unlimited");
+
+function setupDropdown(dropdown, update, options, inputs) {
+  // Drop down UI
+  dropdown.addEventListener("click", (e) => {
+    options.classList.toggle("hidden");
+  });
+
+  const closeUIOptions = (event) => {
+    if (!event.target.checked) return;
+    update.textContent = event.target.value;
+    options.classList.add("hidden");
+  };
+
+  inputs.forEach((input) => {
+    input.addEventListener("change", closeUIOptions);
+  });
+}
+
+setupDropdown(diffDrop, diffUpdate, diffOption, diffPicked);
+setupDropdown(modeDrop, modeUpdate, modeOption, modePicked);
+
+// modeDrop.addEventListener("click", () => {
+//   modeOption.classList.toggle("hidden");
+// });
+// !modeOption.classList.contains("hidden")
+//   ? (picked = modePicked)
+//   : (picked = "");
+
+// runPicked.forEach((pick) => {
+//   pick.addEventListener("click", (e) => {
+//     diffOption.textContent = e.target.textContent;
+//     diffOption.classList.toggle("hidden");
+//   });
+// });

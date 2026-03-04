@@ -74,9 +74,49 @@ header div.header-bottom div.dropdown div.radio {
   border-radius: 0.5rem;
   width: 50%;
   padding: 0.5rem 0.25rem;
+  position: relative;
+}
+header div.header-bottom div.dropdown div.radio div.radio-button, header div.header-bottom div.dropdown div.radio div.unlimited {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+header div.header-bottom div.dropdown div.radio div.radio-button img, header div.header-bottom div.dropdown div.radio div.unlimited img {
+  padding-left: 0.5rem;
 }
 header div.header-bottom div.dropdown div.radio div.options {
-  display: none;
+  position: absolute;
+  text-align: left;
+  background: hsl(0, 0%, 15%);
+  border-radius: 0.5rem;
+  padding: 0.5rem 0;
+  width: 100%;
+  margin-top: 1rem;
+  z-index: 100;
+}
+header div.header-bottom div.dropdown div.radio div.options div {
+  border-bottom: 1px solid hsl(240, 3%, 46%);
+  padding: 0.5rem 0.8rem;
+}
+header div.header-bottom div.dropdown div.radio div.options div input[type=radio] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 15px;
+  height: 15px;
+  border: 1px solid hsl(240, 1%, 59%);
+  border-radius: 50%;
+  background-color: hsl(0, 0%, 15%);
+}
+header div.header-bottom div.dropdown div.radio div.options div input[type=radio]:checked {
+  background: initial;
+  border: none;
+  box-shadow: inset 0 0 0 4px hsl(214, 100%, 55%);
+}
+header div.header-bottom div.dropdown div.radio div.options div label {
+  padding-left: 0.5rem;
+}
+header div.header-bottom div.dropdown div.radio div.options div:last-child {
+  border: none;
 }
 header div.header-bottom div.dropdown div.radio div input[type=button] {
   background: transparent;
@@ -92,7 +132,8 @@ header div.header-bottom div.dropdown div.radio div input[type=button]:hover {
   border: 1px solid hsl(214, 100%, 55%);
   color: hsl(214, 100%, 55%);
 }
-header div.header-bottom div.dropdown p {
+header div.header-bottom div.dropdown p,
+header div.header-bottom div.dropdown .hidden {
   display: none;
 }
 header {
@@ -144,8 +185,8 @@ header {
     justify-content: flex-end;
   }
   header div.header-bottom div.dropdown div.radio.mode div input:first-child {
-    border: 1px solid hsl(210, 100%, 65%);
-    color: hsl(210, 100%, 65%);
+    border: 1px solid hsl(214, 100%, 55%);
+    color: hsl(214, 100%, 55%);
   }
   header div.header-bottom div.dropdown p {
     display: block;
