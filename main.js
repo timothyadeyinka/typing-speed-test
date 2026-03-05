@@ -80,15 +80,7 @@ mediaQuery.addEventListener("change", (e) => {
 // Run on load
 applyLogo(mediaQuery.matches);
 
-// fetch .json file
-async function loadData() {
-  const response = await fetch("data.json");
-
-  const data = await response.json();
-  console.log(data);
-}
-
-loadData();
+let data;
 
 // Dropdown declarations must not be moved up because it will return value:null as it has not been inserted in the DOM until line 67 & 68;
 const diffUpdate = document.querySelector("div.radio-button span");
@@ -96,11 +88,21 @@ const modeUpdate = document.querySelector("div.unlimited span");
 const diffOption = document.querySelector("div.opt1");
 const modeOption = document.querySelector("div.opt2");
 const diffPicked = document.querySelectorAll("div.opt1 form div input");
-const modePicked = document.querySelectorAll("div.opt2 form div");
+const modePicked = document.querySelectorAll("div.opt2 form div input");
 const diffDrop = document.querySelector("div.radio-button");
 const modeDrop = document.querySelector("div.unlimited");
 
-function setupDropdown(dropdown, update, options, inputs) {
+// fetch .json file
+async function loadData() {
+  const response = await fetch("data.json");
+
+  data = await response.json();
+  console.log(data);
+  console.log(data["easy"]);
+  return data;
+}
+
+function setupDropdown(dropdown, update, options, inputs, data) {
   // Drop down UI
   dropdown.addEventListener("click", (e) => {
     options.classList.toggle("hidden");
@@ -110,6 +112,11 @@ function setupDropdown(dropdown, update, options, inputs) {
     if (!event.target.checked) return;
     update.textContent = event.target.value;
     options.classList.add("hidden");
+    const typingBoard = document.querySelector("#typing-board");
+    console.log(data[event.target.value]);
+    const text =
+      data[event.target.value].Math.random() * data[event.target.value].length;
+    typingBoard.textContent = text;
   };
 
   inputs.forEach((input) => {
@@ -117,19 +124,5 @@ function setupDropdown(dropdown, update, options, inputs) {
   });
 }
 
-setupDropdown(diffDrop, diffUpdate, diffOption, diffPicked);
-setupDropdown(modeDrop, modeUpdate, modeOption, modePicked);
-
-// modeDrop.addEventListener("click", () => {
-//   modeOption.classList.toggle("hidden");
-// });
-// !modeOption.classList.contains("hidden")
-//   ? (picked = modePicked)
-//   : (picked = "");
-
-// runPicked.forEach((pick) => {
-//   pick.addEventListener("click", (e) => {
-//     diffOption.textContent = e.target.textContent;
-//     diffOption.classList.toggle("hidden");
-//   });
-// });
+setupDropdown(diffDrop, diffUpdate, diffOption, diffPicked, loadData());
+setupDropdown(modeDrop, modeUpdate, modeOption, modePicked, loadData());
