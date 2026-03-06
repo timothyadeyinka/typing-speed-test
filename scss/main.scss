@@ -29,9 +29,19 @@ body {
   color: $Neutral-0;
   background: $Neutral-900;
   padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
 }
+
 /* Header */
 header {
+  width: 100%;
+
   & div.header-top,
   & div.header-bottom div.labels,
   & div.header-bottom div.dropdown {
@@ -154,7 +164,7 @@ header {
           background: transparent;
           outline: 0;
           color: $Neutral-0;
-          padding: 0 0.5rem;
+          padding: 0.3rem 0.5rem;
           border: 1px solid $Neutral-500;
           border-radius: 0.3rem;
           margin: 0 0.25rem;
@@ -175,12 +185,20 @@ header {
 .hidden {
   display: none;
 }
+.checked {
+  border: 1px solid $Blue-600 !important;
+  color: $Blue-600 !important;
+}
 
-main {
+main.typing-container {
+  overflow: scroll;
+
   #typing-board {
     white-space: pre-wrap;
     position: relative;
     font-size: 1.5rem;
+    padding: 1.5rem 0;
+    overflow: scroll;
 
     & span {
       color: $Neutral-500;
@@ -193,6 +211,7 @@ main {
 
     & .incorrect {
       color: $Red-500;
+      border-bottom: 2px solid $Red-500;
     }
 
     & .active {
@@ -205,7 +224,7 @@ main {
       left: -2px;
       top: 0;
       width: 2px;
-      height: 1.2rem;
+      height: 1.5rem;
       background: $Neutral-0;
       animation: blink 1s infinite;
     }
@@ -234,6 +253,25 @@ main {
     75% {
       opacity: 0;
     }
+  }
+}
+
+footer {
+  border-top: 1px solid $Neutral-800;
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  color: $Neutral-0;
+  background: $Neutral-900;
+  padding-bottom: 0;
+  width: 100%;
+
+  & div.restart {
+    padding: 1rem;
+    background: $Neutral-800;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
   }
 }
 
@@ -273,24 +311,37 @@ main {
         }
 
         & div.radio.diff {
-          & div {
-            justify-content: flex-start;
+          display: flex;
+          flex-direction: row;
+          width: 100%;
 
-            & input:last-child {
-              border: 1px solid $Blue-400;
-              color: $Blue-400;
-            }
+          & div.radio-button {
+            justify-content: flex-start;
+          }
+
+          & div.options {
+            position: static;
+            z-index: inherit;
+            background: none;
+            margin-top: 0;
           }
         }
 
         & div.radio.mode {
-          & div {
-            justify-content: flex-end;
+          display: flex;
+          flex-direction: row;
+          width: 100%;
+          justify-content: flex-end;
 
-            & input:first-child {
-              border: 1px solid $Blue-600;
-              color: $Blue-600;
-            }
+          & div.unlimited {
+            justify-content: flex-end;
+          }
+
+          & div.options {
+            position: static;
+            z-index: inherit;
+            background: none;
+            margin-top: 0;
           }
         }
 

@@ -34,9 +34,13 @@ const diffSmall = `
           </div>
 `;
 const diffLarge = `
+<div class="radio-button">Difficulty: </div>
+<div class="options opt1">
+<form>
 <div>
-            Difficulty:&nbsp;&nbsp;<input type="button" value="Easy">
-            <input type="button" value="Medium"><input type="button" value="Hard">
+<input type="button" value="Easy">
+            <input type="button" value="Medium"><input type="button" value="Hard"></div>
+</form>
           </div>`;
 const modeSmall = `
   <div class="unlimited"><span>Timed(60s)</span><img src="assets/images/icon-down-arrow.svg" alt="dropdown icon-down-arrow"></div>
@@ -52,9 +56,9 @@ const modeSmall = `
           </div>
 `;
 const modeLarge = `
- <div>
-            Mode:&nbsp;&nbsp;
-            <input type="button" value="Timed (60s)"><input type="button" value="Passage">
+<div class="unlimited"><span>Mode: </span></div>
+ <div class="options opt2">
+            <input type="button" value="Timed(60s)"><input type="button" value="Passage">
           </div>`;
 
 // DOM manipulation
@@ -90,16 +94,22 @@ const modePicked = document.querySelectorAll("div.opt2 form div input");
 const diffDrop = document.querySelector("div.radio-button");
 const modeDrop = document.querySelector("div.unlimited");
 const typingBoard = document.querySelector("#typing-board");
+
 const timerDisplay = document.querySelector("#timer");
+const WPM = document.querySelector("#wpm");
+const accuracy = document.querySelector("#acc");
 
 const state = {
   difficulty: "hard",
-  mode: "timed",
+  mode: "timed(60s)",
   lastIndex: null,
   currentIndex: 0,
+  correctChars: 0,
   passages: null,
   timer: null,
   timeLeft: 60,
+  startTime: null,
+  elapsedTime: null,
 };
 
 // Rendering a Passage
@@ -138,22 +148,44 @@ async function loadData() {
   return data;
 }
 
+// styling the preselected input at first load
+function styleChecked(value, options) {
+  if (value) {
+    options.forEach((opt) => {
+      opt.value = opt.value.toLowerCase();
+      if (opt.value === value) {
+        opt.classList.add("checked");
+      } else {
+        opt.classList.remove("checked");
+      }
+    });
+  } else {
+    return;
+  }
+}
+
 async function init() {
+  styleChecked(state.difficulty, diffPicked);
+
+  // if (state.mode) styleChecked(state.mode, modePicked);
   const data = await loadData();
 
   state.passages = data;
 
-  setupDropdown(
-    diffDrop,
-    diffUpdate,
-    diffOption,
-    diffPicked,
-    data,
-    "difficulty",
-  );
-  setupDropdown(modeDrop, modeUpdate, modeOption, modePicked, data, "mode");
+  setupDropdown(diffDrop, diffUpdate, diffOption, diffPicked, "difficulty");
+  setupDropdown(modeDrop, modeUpdate, modeOption, modePicked, "mode");
 
   renderNewPassage();
+}
+
+// converting the time to minutes
+function convertTime(elapsed, startTime) {
+  if (startTime === null) startTime = Date.now();
+  console.log(startTime);
+
+  if (startTime !== null) elapsed = Date.now() - startTime;
+  console.log(elapsed);
+  return elapsed / 1000 / 60;
 }
 
 // Handle typing
@@ -183,13 +215,23 @@ function handleTyping(e) {
     currentSpan.classList.add("incorrect");
   }
 
+  // dealing with the WPM
+  if (typedChar === currentSpan.textContent) state.correctChars++;
+
+  // console.log(state.correctChars);
+
+  let time = convertTime(state.elapsedTime, state.startTime);
+  console.log(time);
+
+  WPM.textContent = state.correctChars / 5 / time;
+
   state.currentIndex++;
 
   updateCursor();
 }
 
 // Dropdown logic
-function setupDropdown(dropdown, update, options, inputs, data, stateKey) {
+function setupDropdown(dropdown, update, options, inputs, stateKey) {
   // Drop down UI
   dropdown.addEventListener("click", () => {
     options.classList.toggle("hidden");
@@ -199,11 +241,20 @@ function setupDropdown(dropdown, update, options, inputs, data, stateKey) {
     const value = event.target.value.toLowerCase();
     // update state
     state[stateKey] = value;
-    //update dropdown label
-    update.textContent = event.target.value;
+
+    // toggling the styling of clicked inputs
+    styleChecked(state[stateKey], diffPicked);
+
     options.classList.add("hidden");
     renderNewPassage();
     typingBoard.focus(); // restore typing focus
+
+    //update dropdown label
+    if (update !== null) {
+      update.textContent = event.target.value;
+    } else {
+      return;
+    }
   };
 
   inputs.forEach((input) => {
@@ -240,21 +291,3 @@ function updateCursor() {
     });
   }
 }
-
-// using the then method ensures that the data passed is the JSON not a promise.
-// loadData().then((data) => {
-//   console.log("Data used in then: ", data);
-//   // the key must be used for the state key or else, it won't work as we are specifying to the object property, not a stored reference under a variable.
-//   setupDropdown(
-//     diffDrop,
-//     diffUpdate,
-//     diffOption,
-//     diffPicked,
-//     data,
-//     "difficulty",
-//   );
-//   setupDropdown(modeDrop, modeUpdate, modeOption, modePicked, data, "mode");
-
-//   // start the page with the preselected radio options.
-//   updateTypingBoard(data);
-// });

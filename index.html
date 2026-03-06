@@ -30,13 +30,13 @@
     <div class="header-bottom">
       <div class="labels">
         <div>
-          WPM:&nbsp;&nbsp;<span>0</span>
+          WPM:&nbsp;&nbsp;<span id="wpm">0</span>
         </div>
         <div>
-          Accuracy:&nbsp;&nbsp;<span>100%</span>
+          Accuracy:&nbsp;&nbsp;<span id="acc">100%</span>
         </div>
-        <div id="timer">
-          Time:&nbsp;&nbsp;<span>0:60</span>
+        <div>
+          Time:&nbsp;&nbsp;<span id="timer">0:60</span>
         </div>
       </div>
 
@@ -56,6 +56,10 @@
     <div id="typing-board" tabindex="0"></div>
     <input type="text" id="hidden-input" class="hidden" autocomplete="off">
   </main>
+
+  <footer>
+    <div class="restart">Restart Test&nbsp;&nbsp;<img src="assets/images/icon-restart.svg" alt="restart image"></div>
+  </footer>
 
 </body>
 
