@@ -22,13 +22,13 @@ const diffSmall = `
           </div>
           <div class="options opt1 hidden">
             <form>
-              <div> <input type="radio" id="easy" name="difficulty" value="Easy">
+              <div> <input type="radio" id="Easy" name="difficulty" value="Easy">
               <label for="Easy">Easy</label> </div>
-             <div>  <input type="radio" id="medium" name="difficulty" value="Medium">
+             <div>  <input type="radio" id="Medium" name="difficulty" value="Medium">
               <label for="Medium">Medium</label>
               </div>
              <div>
-              <input type="radio" id="hard" name="difficulty" value="Hard" checked>
+              <input type="radio" id="Hard" name="difficulty" value="Hard" checked>
               <label for="Hard">Hard</label> </div>
             </form>
           </div>
@@ -43,10 +43,10 @@ const modeSmall = `
           <div class="options opt2 hidden">
             <form>
              <div> 
-              <input type="radio" id="timed" name="mode" value="Timed (60s)" checked>
+              <input type="radio" id="Timed (60s)" name="mode" value="Timed (60s)" checked>
               <label for="Timed (60)">Timed (60s)</label> </div>
              <div> 
-              <input type="radio" id="passage" name="mode" value="Passage">
+              <input type="radio" id="Passage" name="mode" value="Passage">
               <label for="Passage">Passage</label></div>
             </form>
           </div>
@@ -80,8 +80,6 @@ mediaQuery.addEventListener("change", (e) => {
 // Run on load
 applyLogo(mediaQuery.matches);
 
-let data;
-
 // Dropdown declarations must not be moved up because it will return value:null as it has not been inserted in the DOM until line 67 & 68;
 const diffUpdate = document.querySelector("div.radio-button span");
 const modeUpdate = document.querySelector("div.unlimited span");
@@ -91,38 +89,172 @@ const diffPicked = document.querySelectorAll("div.opt1 form div input");
 const modePicked = document.querySelectorAll("div.opt2 form div input");
 const diffDrop = document.querySelector("div.radio-button");
 const modeDrop = document.querySelector("div.unlimited");
+const typingBoard = document.querySelector("#typing-board");
+const timerDisplay = document.querySelector("#timer");
+
+const state = {
+  difficulty: "hard",
+  mode: "timed",
+  lastIndex: null,
+  currentIndex: 0,
+  passages: null,
+  timer: null,
+  timeLeft: 60,
+};
+
+// Rendering a Passage
+function renderNewPassage() {
+  const passages = state.passages[state.difficulty];
+
+  let randomIndex;
+
+  do {
+    randomIndex = Math.floor(Math.random() * passages.length);
+  } while (randomIndex === state.lastIndex);
+
+  state.lastIndex = randomIndex;
+
+  const text = passages[randomIndex].text;
+  typingBoard.innerHTML = "";
+  text.split("").forEach((char) => {
+    const span = document.createElement("span");
+    span.textContent = char;
+    typingBoard.appendChild(span);
+  });
+
+  state.currentIndex = 0;
+
+  // 👇 add active cursor to first letter
+  updateCursor();
+}
 
 // fetch .json file
 async function loadData() {
   const response = await fetch("data.json");
 
-  data = await response.json();
+  const data = await response.json();
   console.log(data);
-  console.log(data["easy"]);
+
   return data;
 }
 
-function setupDropdown(dropdown, update, options, inputs, data) {
+async function init() {
+  const data = await loadData();
+
+  state.passages = data;
+
+  setupDropdown(
+    diffDrop,
+    diffUpdate,
+    diffOption,
+    diffPicked,
+    data,
+    "difficulty",
+  );
+  setupDropdown(modeDrop, modeUpdate, modeOption, modePicked, data, "mode");
+
+  renderNewPassage();
+}
+
+// Handle typing
+typingBoard.addEventListener("keydown", handleTyping);
+typingBoard.focus();
+function handleTyping(e) {
+  const spans = typingBoard.querySelectorAll("span");
+  if (state.currentIndex >= spans.length) return;
+  if (e.key.length > 1 && e.key !== "Backspace") return;
+  if (e.key === "Backspace") {
+    if (state.currentIndex === 0) return;
+
+    state.currentIndex--;
+    const span = spans[state.currentIndex];
+    span.classList.remove("correct", "incorrect");
+
+    updateCursor();
+    return;
+  }
+
+  const currentSpan = spans[state.currentIndex];
+  const typedChar = e.key;
+
+  if (typedChar === currentSpan.textContent) {
+    currentSpan.classList.add("correct");
+  } else {
+    currentSpan.classList.add("incorrect");
+  }
+
+  state.currentIndex++;
+
+  updateCursor();
+}
+
+// Dropdown logic
+function setupDropdown(dropdown, update, options, inputs, data, stateKey) {
   // Drop down UI
-  dropdown.addEventListener("click", (e) => {
+  dropdown.addEventListener("click", () => {
     options.classList.toggle("hidden");
   });
 
   const closeUIOptions = (event) => {
-    if (!event.target.checked) return;
+    const value = event.target.value.toLowerCase();
+    // update state
+    state[stateKey] = value;
+    //update dropdown label
     update.textContent = event.target.value;
     options.classList.add("hidden");
-    const typingBoard = document.querySelector("#typing-board");
-    console.log(data[event.target.value]);
-    const text =
-      data[event.target.value].Math.random() * data[event.target.value].length;
-    typingBoard.textContent = text;
+    renderNewPassage();
+    typingBoard.focus(); // restore typing focus
   };
 
   inputs.forEach((input) => {
-    input.addEventListener("change", closeUIOptions);
+    input.addEventListener("click", closeUIOptions);
   });
 }
 
-setupDropdown(diffDrop, diffUpdate, diffOption, diffPicked, loadData());
-setupDropdown(modeDrop, modeUpdate, modeOption, modePicked, loadData());
+// Timer mode
+function startTimer() {
+  state.timeLeft = 60;
+  state.timer = setInterval(() => {
+    state.timeLeft--;
+    timerDisplay.textContent = state.timeLeft;
+
+    if (state.timeLeft <= 0) {
+      clearInterval(state.timer);
+      endTest();
+    }
+  }, 1000);
+}
+
+document.addEventListener("DOMContentLoaded", init);
+
+function updateCursor() {
+  const spans = typingBoard.querySelectorAll("span");
+  spans.forEach((span) => span.classList.remove("active"));
+  if (state.currentIndex < spans.length) {
+    spans[state.currentIndex].classList.add("active");
+
+    // scroll cursor into view automatically for long text
+    spans[state.currentIndex].scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
+  }
+}
+
+// using the then method ensures that the data passed is the JSON not a promise.
+// loadData().then((data) => {
+//   console.log("Data used in then: ", data);
+//   // the key must be used for the state key or else, it won't work as we are specifying to the object property, not a stored reference under a variable.
+//   setupDropdown(
+//     diffDrop,
+//     diffUpdate,
+//     diffOption,
+//     diffPicked,
+//     data,
+//     "difficulty",
+//   );
+//   setupDropdown(modeDrop, modeUpdate, modeOption, modePicked, data, "mode");
+
+//   // start the page with the preselected radio options.
+//   updateTypingBoard(data);
+// });

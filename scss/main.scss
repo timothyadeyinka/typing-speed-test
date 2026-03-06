@@ -166,15 +166,75 @@ header {
           }
         }
       }
-
-      & p,
-      .hidden {
-        display: none;
-      }
     }
   }
 
   border-bottom: 1px solid $Neutral-800;
+}
+
+.hidden {
+  display: none;
+}
+
+main {
+  #typing-board {
+    white-space: pre-wrap;
+    position: relative;
+    font-size: 1.5rem;
+
+    & span {
+      color: $Neutral-500;
+      position: relative;
+    }
+
+    & .correct {
+      color: $Green-500;
+    }
+
+    & .incorrect {
+      color: $Red-500;
+    }
+
+    & .active {
+      position: relative;
+    }
+
+    & .active::before {
+      content: "";
+      position: absolute;
+      left: -2px;
+      top: 0;
+      width: 2px;
+      height: 1.2rem;
+      background: $Neutral-0;
+      animation: blink 1s infinite;
+    }
+    @keyframes blink {
+      50% {
+        opacity: 0;
+      }
+    }
+  }
+  #cursor {
+    position: absolute;
+    width: 2px;
+    height: 1.2rem;
+    background: $Neutral-0;
+    animation: blink 1s infinite;
+    transition: transform 0.15s ease;
+  }
+
+  @keyframes blink {
+    0%,
+    50%,
+    100% {
+      opacity: 1;
+    }
+    25%,
+    75% {
+      opacity: 0;
+    }
+  }
 }
 
 @media (min-width: 600px) {

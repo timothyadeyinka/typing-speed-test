@@ -132,12 +132,62 @@ header div.header-bottom div.dropdown div.radio div input[type=button]:hover {
   border: 1px solid hsl(214, 100%, 55%);
   color: hsl(214, 100%, 55%);
 }
-header div.header-bottom div.dropdown p,
-header div.header-bottom div.dropdown .hidden {
-  display: none;
-}
 header {
   border-bottom: 1px solid hsl(0, 0%, 15%);
+}
+
+.hidden {
+  display: none;
+}
+
+main #typing-board {
+  white-space: pre-wrap;
+  position: relative;
+  font-size: 1.5rem;
+}
+main #typing-board span {
+  color: hsl(240, 3%, 46%);
+  position: relative;
+}
+main #typing-board .correct {
+  color: hsl(140, 63%, 57%);
+}
+main #typing-board .incorrect {
+  color: hsl(354, 63%, 57%);
+}
+main #typing-board .active {
+  position: relative;
+}
+main #typing-board .active::before {
+  content: "";
+  position: absolute;
+  left: -2px;
+  top: 0;
+  width: 2px;
+  height: 1.2rem;
+  background: hsl(0, 0%, 100%);
+  animation: blink 1s infinite;
+}
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+main #cursor {
+  position: absolute;
+  width: 2px;
+  height: 1.2rem;
+  background: hsl(0, 0%, 100%);
+  animation: blink 1s infinite;
+  transition: transform 0.15s ease;
+}
+@keyframes blink {
+  0%, 50%, 100% {
+    opacity: 1;
+  }
+  25%, 75% {
+    opacity: 0;
+  }
 }
 
 @media (min-width: 600px) {

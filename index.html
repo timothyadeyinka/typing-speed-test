@@ -35,7 +35,7 @@
         <div>
           Accuracy:&nbsp;&nbsp;<span>100%</span>
         </div>
-        <div>
+        <div id="timer">
           Time:&nbsp;&nbsp;<span>0:60</span>
         </div>
       </div>
@@ -44,7 +44,7 @@
         <div class="radio diff">
           <!-- Filled by main.js -->
         </div>
-        <p>|</p>
+        <p class="hidden">|</p>
         <div class="radio mode">
           <!-- Filled by main.js -->
         </div>
@@ -52,8 +52,9 @@
     </div>
   </header>
 
-  <main>
-    <p id="typing-board"></p>
+  <main class="typing-container">
+    <div id="typing-board" tabindex="0"></div>
+    <input type="text" id="hidden-input" class="hidden" autocomplete="off">
   </main>
 
 </body>
