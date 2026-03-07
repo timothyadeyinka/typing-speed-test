@@ -5,7 +5,7 @@
  * 2nd March, 2026
  * ********************************************/
 
-"use script";
+"use strict";
 
 // DOM manipulation
 const diff = document.querySelector("div.diff");
@@ -58,7 +58,9 @@ const modeSmall = `
 const modeLarge = `
 <div class="unlimited"><span>Mode: </span></div>
  <div class="options opt2">
-            <input type="button" value="Timed(60s)"><input type="button" value="Passage">
+            <form>
+            <div><input type="button" value="Timed(60s)"><input type="button" value="Passage"></div>
+            </form>
           </div>`;
 
 // DOM manipulation
@@ -98,6 +100,8 @@ const typingBoard = document.querySelector("#typing-board");
 const timerDisplay = document.querySelector("#timer");
 const WPM = document.querySelector("#wpm");
 const accuracy = document.querySelector("#acc");
+// const restart = document.querySelector("div.restart");
+const bestWPM = document.querySelector("span.achieved");
 
 const state = {
   difficulty: "hard",
@@ -110,17 +114,34 @@ const state = {
   timeLeft: 60,
   startTime: null,
   elapsedTime: null,
+  totalTyped: 0,
+  mistakes: 0,
 };
 
 // Rendering a Passage
 function renderNewPassage() {
+  state.currentIndex = 0;
+  state.correctChars = 0;
+  state.totalTyped = 0;
+  state.mistakes = 0;
+  state.startTime = null;
+  state.timeLeft = 60;
+
+  timerDisplay.textContent = `0: ${String(state.timeLeft).padStart(2, "0")}`;
+  WPM.textContent = "0";
+  accuracy.textContent = "0%";
+
   const passages = state.passages[state.difficulty];
 
   let randomIndex;
 
-  do {
-    randomIndex = Math.floor(Math.random() * passages.length);
-  } while (randomIndex === state.lastIndex);
+  if (passages.length === 1) {
+    randomIndex = 0;
+  } else {
+    do {
+      randomIndex = Math.floor(Math.random() * passages.length);
+    } while (randomIndex === state.lastIndex);
+  }
 
   state.lastIndex = randomIndex;
 
@@ -143,7 +164,6 @@ async function loadData() {
   const response = await fetch("data.json");
 
   const data = await response.json();
-  console.log(data);
 
   return data;
 }
@@ -166,8 +186,14 @@ function styleChecked(value, options) {
 
 async function init() {
   styleChecked(state.difficulty, diffPicked);
+  styleChecked(state.mode, modePicked);
 
-  // if (state.mode) styleChecked(state.mode, modePicked);
+  const savedBest = localStorage.getItem("bestWPM");
+
+  if (savedBest) {
+    bestWPM.textContent = savedBest;
+  }
+
   const data = await loadData();
 
   state.passages = data;
@@ -178,18 +204,17 @@ async function init() {
   renderNewPassage();
 }
 
-// converting the time to minutes
-function convertTime(elapsed, startTime) {
-  if (startTime === null) startTime = Date.now();
-  console.log(startTime);
-
-  if (startTime !== null) elapsed = Date.now() - startTime;
-  console.log(elapsed);
-  return elapsed / 1000 / 60;
-}
-
 // Handle typing
 typingBoard.addEventListener("keydown", handleTyping);
+typingBoard.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    restartTest();
+  }
+  if (e.key === "r" && e.ctrlKey) {
+    localStorage.removeItem("bestWPM");
+    bestWPM.textContent = 0;
+  }
+});
 typingBoard.focus();
 function handleTyping(e) {
   const spans = typingBoard.querySelectorAll("span");
@@ -200,6 +225,15 @@ function handleTyping(e) {
 
     state.currentIndex--;
     const span = spans[state.currentIndex];
+    if (span.classList.contains("correct")) {
+      state.correctChars--;
+    }
+    if (span.classList.contains("incorrect")) {
+      state.mistakes--;
+    }
+
+    state.totalTyped--;
+
     span.classList.remove("correct", "incorrect");
 
     updateCursor();
@@ -207,26 +241,24 @@ function handleTyping(e) {
   }
 
   const currentSpan = spans[state.currentIndex];
+
+  if (state.currentIndex === 0) startTimer();
+
   const typedChar = e.key;
 
   if (typedChar === currentSpan.textContent) {
     currentSpan.classList.add("correct");
+    state.correctChars++;
   } else {
     currentSpan.classList.add("incorrect");
+    state.mistakes++;
   }
 
-  // dealing with the WPM
-  if (typedChar === currentSpan.textContent) state.correctChars++;
-
-  // console.log(state.correctChars);
-
-  let time = convertTime(state.elapsedTime, state.startTime);
-  console.log(time);
-
-  WPM.textContent = state.correctChars / 5 / time;
+  state.totalTyped++;
 
   state.currentIndex++;
 
+  updateStats();
   updateCursor();
 }
 
@@ -243,7 +275,7 @@ function setupDropdown(dropdown, update, options, inputs, stateKey) {
     state[stateKey] = value;
 
     // toggling the styling of clicked inputs
-    styleChecked(state[stateKey], diffPicked);
+    styleChecked(state[stateKey], inputs);
 
     options.classList.add("hidden");
     renderNewPassage();
@@ -264,16 +296,82 @@ function setupDropdown(dropdown, update, options, inputs, stateKey) {
 
 // Timer mode
 function startTimer() {
-  state.timeLeft = 60;
+  if (state.timer) return;
+
+  if (!state.startTime) {
+    state.startTime = Date.now();
+  }
+
   state.timer = setInterval(() => {
     state.timeLeft--;
-    timerDisplay.textContent = state.timeLeft;
+    timerDisplay.textContent = `0: ${String(state.timeLeft).padStart(2, "0")}`;
 
     if (state.timeLeft <= 0) {
       clearInterval(state.timer);
       endTest();
     }
   }, 1000);
+}
+
+function updateStats() {
+  if (!state.startTime) return;
+
+  const elapsed = (Date.now() - state.startTime) / 1000;
+  const minutes = elapsed / 60;
+
+  if (elapsed <= 0) return;
+  if (elapsed < 2) return;
+
+  const wpm = Math.round(state.correctChars / 5 / minutes);
+  const acc =
+    state.totalTyped === 0
+      ? 100
+      : Math.round((state.correctChars / state.totalTyped) * 100);
+
+  WPM.textContent = wpm;
+  accuracy.textContent = `${acc}%`;
+}
+
+function endTest() {
+  clearInterval(state.timer);
+
+  const currentWPM = parseInt(WPM.textContent);
+  const bestWPM = Number(localStorage.getItem("bestWPM") || 0);
+
+  if (currentWPM > bestWPM) {
+    localStorage.setItem("bestWPM", currentWPM);
+    bestWPM.textContent = currentWPM;
+  }
+
+  typingBoard.removeEventListener("keydown", handleTyping);
+
+  const finalWPM = WPM.textContent;
+  const finalAcc = accuracy.textContent;
+
+  alert(`Test finished!
+    WPM: ${finalWPM}
+    Accuracy: ${finalAcc}`);
+}
+
+function restartTest() {
+  clearInterval(state.timer);
+
+  state.timer = null;
+  state.startTime = null;
+  state.timeLeft = 60;
+
+  state.currentIndex = 0;
+  state.totalTyped = 0;
+  state.correctChars = 0;
+  state.mistakes = 0;
+
+  WPM.textContent = 0;
+  accuracy.textContent = 100;
+  timerDisplay.textContent = `0:${String(state.timeLeft).padStart(2, "0")}`;
+
+  typingBoard.addEventListener("keydown", handleTyping);
+
+  renderNewPassage();
 }
 
 document.addEventListener("DOMContentLoaded", init);

@@ -163,7 +163,7 @@ main.typing-container #typing-board {
   position: relative;
   font-size: 1.5rem;
   padding: 1.5rem 0;
-  overflow: scroll;
+  overflow: visible;
 }
 main.typing-container #typing-board span {
   color: hsl(240, 3%, 46%);

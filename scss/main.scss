@@ -198,7 +198,7 @@ main.typing-container {
     position: relative;
     font-size: 1.5rem;
     padding: 1.5rem 0;
-    overflow: scroll;
+    overflow: visible;
 
     & span {
       color: $Neutral-500;
