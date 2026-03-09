@@ -199,8 +199,11 @@ header {
 }
 
 .confetti {
-  background: url("assets/images/pattern-confetti.svg") 40% 100% auto no-repeat
-    fixed;
+  background-image: url("assets/images/pattern-confetti.svg");
+  background-position: 30% 100%;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: auto;
 }
 
 main.typing-container {
@@ -271,11 +274,6 @@ main.typing-container {
     justify-content: center;
     text-align: center;
     color: $Neutral-500;
-    // background: url("assets/images/pattern-confetti.svg");
-    // background-repeat: no-repeat;
-    // background-size: auto;
-    // background-position: 40% 100%;
-    // background-attachment: fixed;
 
     & div.images {
       width: 100%;

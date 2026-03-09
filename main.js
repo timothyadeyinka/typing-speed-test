@@ -140,9 +140,11 @@ function renderNewPassage() {
   state.startTime = null;
   state.timeLeft = 60;
 
-  timerDisplay.textContent = `0: ${String(state.timeLeft).padStart(2, "0")}`;
+  timerDisplay.textContent = `0:${String(state.timeLeft).padStart(2, "0")}`;
   WPM.textContent = "0";
-  accuracy.textContent = "0%";
+  accuracy.textContent = "100%";
+
+  if (state.mode === "passage") timerDisplay.textContent = "--";
 
   const passages = state.passages[state.difficulty];
 
@@ -201,7 +203,7 @@ async function init() {
   styleChecked(state.difficulty, diffPicked);
   styleChecked(state.mode, modePicked);
 
-  const savedBest = localStorage.getItem("bestWPM");
+  const savedBest = localStorage.getItem("storedBestWPM");
 
   if (savedBest) {
     bestWPM.textContent = savedBest;
@@ -265,7 +267,12 @@ function handleTyping(e) {
 
   const currentSpan = spans[state.currentIndex];
 
-  if (state.currentIndex === 0) startTimer();
+  if (state.currentIndex === 0) {
+    if (!state.startTime) {
+      state.startTime = Date.now();
+      if (state.mode !== "passage") startTimer();
+    }
+  }
 
   const typedChar = e.key;
 
@@ -322,10 +329,6 @@ function setupDropdown(dropdown, update, options, inputs, stateKey) {
 function startTimer() {
   if (state.timer) return;
 
-  if (!state.startTime) {
-    state.startTime = Date.now();
-  }
-
   state.timer = setInterval(() => {
     state.timeLeft--;
     timerDisplay.textContent = `0: ${String(state.timeLeft).padStart(2, "0")}`;
@@ -338,7 +341,7 @@ function startTimer() {
 }
 
 function updateStats() {
-  if (!state.startTime) return;
+  if (!state.startTime && state.mode === "timed(60s)") return;
 
   const elapsed = (Date.now() - state.startTime) / 1000;
   const minutes = elapsed / 60;
@@ -362,7 +365,7 @@ function endTest() {
   const currentWPM = parseInt(WPM.textContent);
   const storedBestWPM = Number(localStorage.getItem("storedBestWPM") || 0);
 
-  if (currentWPM > storedBestWPM) {
+  if (currentWPM < storedBestWPM) {
     localStorage.setItem("storedBestWPM", currentWPM);
     bestWPM.textContent = currentWPM;
     feedbackHeader.textContent = "High Score Smashed!";
@@ -415,6 +418,7 @@ function restartTest() {
   footer.classList.remove("hidden");
   headerBottom.classList.remove("hidden");
   testResults.classList.add("hidden");
+  body.classList.remove("confetti");
 
   renderNewPassage();
 }
