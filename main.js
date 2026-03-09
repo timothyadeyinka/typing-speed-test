@@ -16,6 +16,7 @@ const mediaQuery = window.matchMedia("(min-width: 600px)");
 const userHighScore = document.querySelector(".p-best span.txt");
 const large = "assets/images/logo-large.svg";
 const small = "assets/images/logo-small.svg";
+const body = document.querySelector("body");
 
 const diffSmall = `
  <div class="radio-button"><span>Hard </span><img src="assets/images/icon-down-arrow.svg" alt="dropdown icon-down-arrow">
@@ -100,8 +101,19 @@ const typingBoard = document.querySelector("#typing-board");
 const timerDisplay = document.querySelector("#timer");
 const WPM = document.querySelector("#wpm");
 const accuracy = document.querySelector("#acc");
+const resultAccuracy = document.querySelector("span.result-acc");
+const resultCorrectChar = document.querySelector("span.result-correct");
+const resultIncorrectChar = document.querySelector("span.result-incorrect");
 // const restart = document.querySelector("div.restart");
+const resultWPM = document.querySelector("span.result-achieved");
 const bestWPM = document.querySelector("span.achieved");
+const headerBottom = document.querySelector(".header-bottom");
+const testResults = document.querySelector(".first-test-result");
+const footer = document.querySelector("footer");
+const feedbackHeader = document.querySelector("h2.feedback-header");
+const feedback = document.querySelector("p.feedback");
+const restart = document.querySelector("div.restart");
+const imgMain = document.querySelector("div.images img.main");
 
 const state = {
   difficulty: "hard",
@@ -120,6 +132,7 @@ const state = {
 
 // Rendering a Passage
 function renderNewPassage() {
+  if (!typingBoard) return;
   state.currentIndex = 0;
   state.correctChars = 0;
   state.totalTyped = 0;
@@ -205,21 +218,31 @@ async function init() {
 }
 
 // Handle typing
-typingBoard.addEventListener("keydown", handleTyping);
-typingBoard.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") {
-    restartTest();
-  }
-  if (e.key === "r" && e.ctrlKey) {
-    localStorage.removeItem("bestWPM");
-    bestWPM.textContent = 0;
-  }
-});
-typingBoard.focus();
+function watchTyping() {
+  if (!typingBoard) return;
+
+  typingBoard.addEventListener("keydown", handleTyping);
+  typingBoard.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      restartTest();
+    }
+    if (e.key === "r" && e.ctrlKey) {
+      localStorage.removeItem("bestWPM");
+      bestWPM.textContent = 0;
+    }
+  });
+  typingBoard.focus();
+}
+watchTyping();
+
 function handleTyping(e) {
   const spans = typingBoard.querySelectorAll("span");
   if (state.currentIndex >= spans.length) return;
   if (e.key.length > 1 && e.key !== "Backspace") return;
+
+  // to stop the space-bar auto scroll effect on the typing board.
+  e.preventDefault();
+
   if (e.key === "Backspace") {
     if (state.currentIndex === 0) return;
 
@@ -260,6 +283,7 @@ function handleTyping(e) {
 
   updateStats();
   updateCursor();
+  if (state.currentIndex === spans.length) endTest();
 }
 
 // Dropdown logic
@@ -336,21 +360,37 @@ function endTest() {
   clearInterval(state.timer);
 
   const currentWPM = parseInt(WPM.textContent);
-  const bestWPM = Number(localStorage.getItem("bestWPM") || 0);
+  const storedBestWPM = Number(localStorage.getItem("storedBestWPM") || 0);
 
-  if (currentWPM > bestWPM) {
-    localStorage.setItem("bestWPM", currentWPM);
+  if (currentWPM > storedBestWPM) {
+    localStorage.setItem("storedBestWPM", currentWPM);
     bestWPM.textContent = currentWPM;
+    feedbackHeader.textContent = "High Score Smashed!";
+    feedback.textContent = "You're getting faster. That was incredible typing.";
+    restart.textContent = "Go Again";
+    imgMain.setAttribute("src", "assets/images/icon-new-pb.svg");
+    imgMain.setAttribute("alt", "personal-best");
+    body.classList.add("confetti");
   }
 
   typingBoard.removeEventListener("keydown", handleTyping);
 
-  const finalWPM = WPM.textContent;
   const finalAcc = accuracy.textContent;
 
-  alert(`Test finished!
-    WPM: ${finalWPM}
-    Accuracy: ${finalAcc}`);
+  typingBoard.classList.add("hidden");
+  footer.classList.add("hidden");
+  headerBottom.classList.add("hidden");
+  testResults.classList.remove("hidden");
+
+  resultWPM.textContent = currentWPM;
+  resultAccuracy.textContent = finalAcc;
+  if (resultAccuracy.textContent !== "100%") {
+    resultAccuracy.classList.add("incorrect");
+  } else {
+    resultAccuracy.classList.add("correct");
+  }
+  resultCorrectChar.textContent = state.correctChars;
+  resultIncorrectChar.textContent = state.mistakes;
 }
 
 function restartTest() {
@@ -371,6 +411,11 @@ function restartTest() {
 
   typingBoard.addEventListener("keydown", handleTyping);
 
+  typingBoard.classList.remove("hidden");
+  footer.classList.remove("hidden");
+  headerBottom.classList.remove("hidden");
+  testResults.classList.add("hidden");
+
   renderNewPassage();
 }
 
@@ -385,7 +430,7 @@ function updateCursor() {
     // scroll cursor into view automatically for long text
     spans[state.currentIndex].scrollIntoView({
       behavior: "smooth",
-      block: "center",
+      block: "nearest",
     });
   }
 }

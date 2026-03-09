@@ -55,6 +55,29 @@
   <main class="typing-container">
     <div id="typing-board" tabindex="0"></div>
     <input type="text" id="hidden-input" class="hidden" autocomplete="off">
+
+    <div class="first-test-result hidden">
+      <div class="images">
+        <img src="assets/images/pattern-star-2.svg" alt="pattern-star-2" class="small">
+        <img src="assets/images/icon-completed.svg" alt="green mark" class="main">
+      </div>
+
+      <h2 class="feedback-header">Baseline Established!</h2>
+      <p class="feedback">You've set the bar. Now the real challenge begins--time to beat it.</p>
+
+      <div class="result-details">
+        <div>WPM: <br> <span class="result-achieved">85</span></div>
+        <div>Accuracy: <br> <span class="result-acc">90%</span></div>
+        <div>Characters <br> <span>
+            <span class="result-correct correct">120</span> / <span class="result-incorrect incorrect">5</span>
+          </span></div>
+      </div>
+
+      <div class="restart" onclick="restartTest();">Beat This Score
+        <!-- default color of image is white;  -->
+        <!-- <img src="assets/images/icon-restart.svg" alt="retry"> -->
+      </div>
+    </div>
   </main>
 
   <footer>
