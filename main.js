@@ -10,7 +10,7 @@
 // DOM manipulation
 const diff = document.querySelector("div.diff");
 const mode = document.querySelector("div.mode");
-
+const mainTypingBoard = document.querySelector("main.typing-container");
 const imgLogo = document.querySelector(".header-top img");
 const mediaQuery = window.matchMedia("(min-width: 600px)");
 const userHighScore = document.querySelector(".p-best span.txt");
@@ -24,7 +24,6 @@ const accuracy = document.querySelector("#acc");
 const resultAccuracy = document.querySelector("span.result-acc");
 const resultCorrectChar = document.querySelector("span.result-correct");
 const resultIncorrectChar = document.querySelector("span.result-incorrect");
-// const restart = document.querySelector("div.restart");
 const resultWPM = document.querySelector("span.result-achieved");
 const bestWPM = document.querySelector("span.achieved");
 const headerBottom = document.querySelector(".header-bottom");
@@ -36,6 +35,8 @@ const restart = document.querySelector("div.restart");
 const imgMain = document.querySelector("div.images img.main");
 const starr = document.querySelector("img.starr");
 const smallImg = document.querySelector("img.small");
+const startTest = document.querySelector("div.start-test");
+const test = document.querySelector("div.test");
 
 // DOM manipulation
 const diffSmall = `
@@ -163,7 +164,6 @@ function renderNewPassage() {
   // DONE: tricky section here but I resolved this section by making the first character of the difficulty state a capital letter and using the toLowerCase() here, brilliant!
   const passages = state.passages[state.difficulty.toLowerCase()];
 
-  console.log(passages);
   let randomIndex;
 
   if (passages.length === 1) {
@@ -208,6 +208,7 @@ function styleChecked(value, options) {
         opt.checked = true;
       } else {
         opt.classList.remove("checked");
+        opt.checked = false;
       }
     });
   }
@@ -224,6 +225,12 @@ async function init() {
 
   state.passages = data;
 
+  if (test) {
+    typingBoard.style.filter = "blur(6px)";
+    mainTypingBoard.style.overflow = "hidden";
+    footer.classList.add("hidden");
+  }
+
   setupUI();
 
   renderNewPassage();
@@ -234,20 +241,16 @@ function watchTyping() {
   if (!typingBoard) return;
 
   typingBoard.addEventListener("keydown", handleTyping);
-  typingBoard.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") {
-      restartTest();
-    }
-    // this resets the stored user's achievement.
-    if (e.key === "Delete" && e.shiftKey && e.ctrlKey) {
-      e.preventDefault();
-      localStorage.removeItem("storedBestWPM");
-      bestWPM.textContent = 0;
-    }
-  });
   typingBoard.focus();
+
+  typingBoard.style.filter = "blur(0px)";
+  mainTypingBoard.style.overflow = "scroll";
+  footer.classList.remove("hidden");
+  test.classList.add("hidden");
 }
-watchTyping();
+
+startTest.addEventListener("click", watchTyping);
+restart.addEventListener("click", restartTest);
 
 function handleTyping(e) {
   const spans = typingBoard.querySelectorAll("span");
@@ -256,6 +259,16 @@ function handleTyping(e) {
 
   // to stop the space-bar auto scroll effect on the typing board.
   e.preventDefault();
+
+  if (e.key === "Escape") {
+    restartTest();
+  }
+  // this resets the stored user's achievement.
+  if (e.key === "Delete" && e.shiftKey && e.ctrlKey) {
+    e.preventDefault();
+    localStorage.removeItem("storedBestWPM");
+    bestWPM.textContent = 0;
+  }
 
   if (e.key === "Backspace") {
     if (state.currentIndex === 0) return;
@@ -363,7 +376,7 @@ function updateStats() {
   const minutes = elapsed / 60;
 
   if (elapsed <= 0) return;
-  if (elapsed < 1) return;
+  if (elapsed < 0.2) return;
 
   const wpm = Math.round(state.correctChars / 5 / minutes);
   const acc =
@@ -373,6 +386,10 @@ function updateStats() {
 
   WPM.textContent = wpm;
   accuracy.textContent = `${acc}%`;
+  timerDisplay.classList.add("warning");
+  accuracy.textContent !== "100%"
+    ? accuracy.classList.add("incorrect")
+    : accuracy.classList.add("correct");
 }
 
 function endTest() {
@@ -447,6 +464,9 @@ function restartTest() {
   headerBottom.classList.remove("hidden");
   testResults.classList.add("hidden");
   body.classList.remove("confetti");
+  timerDisplay.classList.remove("warning");
+  accuracy.classList.remove("incorrect");
+  accuracy.classList.remove("correct");
 
   renderNewPassage();
 }

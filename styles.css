@@ -171,8 +171,30 @@ header {
   background-size: auto;
 }
 
+.warning {
+  color: hsl(49, 85%, 70%) !important;
+}
+
 main.typing-container {
   overflow: scroll;
+  position: relative;
+}
+main.typing-container > div:first-child {
+  display: flex;
+  position: absolute;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  z-index: 100;
+  text-align: center;
+}
+main.typing-container > div:first-child div.start-test {
+  border-radius: 0.5rem;
+  background: hsl(210, 100%, 65%);
+  padding: 1rem;
+  margin-bottom: 1rem;
 }
 main.typing-container #typing-board {
   white-space: pre-wrap;
@@ -205,14 +227,6 @@ main.typing-container #typing-board .active::before {
   50% {
     opacity: 0;
   }
-}
-main.typing-container #cursor {
-  position: absolute;
-  width: 2px;
-  height: 1.2rem;
-  background: hsl(0, 0%, 100%);
-  animation: blink 1s infinite;
-  transition: transform 0.15s ease;
 }
 @keyframes blink {
   0%, 50%, 100% {

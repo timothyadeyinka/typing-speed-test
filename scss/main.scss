@@ -206,8 +206,32 @@ header {
   background-size: auto;
 }
 
+.warning {
+  color: $Yellow-400 !important;
+}
+
 main.typing-container {
   overflow: scroll;
+  position: relative;
+
+  & > div:first-child {
+    display: flex;
+    position: absolute;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    z-index: 100;
+    text-align: center;
+
+    & div.start-test {
+      border-radius: 0.5rem;
+      background: $Blue-400;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+  }
 
   #typing-board {
     white-space: pre-wrap;
@@ -244,14 +268,6 @@ main.typing-container {
         opacity: 0;
       }
     }
-  }
-  #cursor {
-    position: absolute;
-    width: 2px;
-    height: 1.2rem;
-    background: $Neutral-0;
-    animation: blink 1s infinite;
-    transition: transform 0.15s ease;
   }
 
   @keyframes blink {
