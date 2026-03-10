@@ -17,7 +17,27 @@ const userHighScore = document.querySelector(".p-best span.txt");
 const large = "assets/images/logo-large.svg";
 const small = "assets/images/logo-small.svg";
 const body = document.querySelector("body");
+const typingBoard = document.querySelector("#typing-board");
+const timerDisplay = document.querySelector("#timer");
+const WPM = document.querySelector("#wpm");
+const accuracy = document.querySelector("#acc");
+const resultAccuracy = document.querySelector("span.result-acc");
+const resultCorrectChar = document.querySelector("span.result-correct");
+const resultIncorrectChar = document.querySelector("span.result-incorrect");
+// const restart = document.querySelector("div.restart");
+const resultWPM = document.querySelector("span.result-achieved");
+const bestWPM = document.querySelector("span.achieved");
+const headerBottom = document.querySelector(".header-bottom");
+const testResults = document.querySelector(".first-test-result");
+const footer = document.querySelector("footer");
+const feedbackHeader = document.querySelector("h2.feedback-header");
+const feedback = document.querySelector("p.feedback");
+const restart = document.querySelector("div.restart");
+const imgMain = document.querySelector("div.images img.main");
+const starr = document.querySelector("img.starr");
+const smallImg = document.querySelector("img.small");
 
+// DOM manipulation
 const diffSmall = `
  <div class="radio-button"><span>Hard </span><img src="assets/images/icon-down-arrow.svg" alt="dropdown icon-down-arrow">
           </div>
@@ -29,7 +49,7 @@ const diffSmall = `
               <label for="Medium">Medium</label>
               </div>
              <div>
-              <input type="radio" id="Hard" name="difficulty" value="Hard" checked>
+              <input type="radio" id="Hard" name="difficulty" value="Hard">
               <label for="Hard">Hard</label> </div>
             </form>
           </div>
@@ -48,7 +68,7 @@ const modeSmall = `
           <div class="options opt2 hidden">
             <form>
              <div> 
-              <input type="radio" id="Timed (60s)" name="mode" value="Timed (60s)" checked>
+              <input type="radio" id="Timed (60s)" name="mode" value="Timed (60s)">
               <label for="Timed (60)">Timed (60s)</label> </div>
              <div> 
               <input type="radio" id="Passage" name="mode" value="Passage">
@@ -64,7 +84,6 @@ const modeLarge = `
             </form>
           </div>`;
 
-// DOM manipulation
 const applyLogo = (isLarge) => {
   const src = isLarge ? large : small;
 
@@ -80,6 +99,7 @@ const applyLogo = (isLarge) => {
 // applyLogo function when a change occurs
 mediaQuery.addEventListener("change", (e) => {
   applyLogo(e.matches);
+  setupUI();
 });
 
 // the order in which the above and the below are placed does not really matter!
@@ -87,37 +107,9 @@ mediaQuery.addEventListener("change", (e) => {
 // Run on load
 applyLogo(mediaQuery.matches);
 
-// Dropdown declarations must not be moved up because it will return value:null as it has not been inserted in the DOM until line 67 & 68;
-const diffUpdate = document.querySelector("div.radio-button span");
-const modeUpdate = document.querySelector("div.unlimited span");
-const diffOption = document.querySelector("div.opt1");
-const modeOption = document.querySelector("div.opt2");
-const diffPicked = document.querySelectorAll("div.opt1 form div input");
-const modePicked = document.querySelectorAll("div.opt2 form div input");
-const diffDrop = document.querySelector("div.radio-button");
-const modeDrop = document.querySelector("div.unlimited");
-const typingBoard = document.querySelector("#typing-board");
-
-const timerDisplay = document.querySelector("#timer");
-const WPM = document.querySelector("#wpm");
-const accuracy = document.querySelector("#acc");
-const resultAccuracy = document.querySelector("span.result-acc");
-const resultCorrectChar = document.querySelector("span.result-correct");
-const resultIncorrectChar = document.querySelector("span.result-incorrect");
-// const restart = document.querySelector("div.restart");
-const resultWPM = document.querySelector("span.result-achieved");
-const bestWPM = document.querySelector("span.achieved");
-const headerBottom = document.querySelector(".header-bottom");
-const testResults = document.querySelector(".first-test-result");
-const footer = document.querySelector("footer");
-const feedbackHeader = document.querySelector("h2.feedback-header");
-const feedback = document.querySelector("p.feedback");
-const restart = document.querySelector("div.restart");
-const imgMain = document.querySelector("div.images img.main");
-
 const state = {
-  difficulty: "hard",
-  mode: "timed(60s)",
+  difficulty: "Hard",
+  mode: "Timed(60s)",
   lastIndex: null,
   currentIndex: 0,
   correctChars: 0,
@@ -129,6 +121,28 @@ const state = {
   totalTyped: 0,
   mistakes: 0,
 };
+
+function setupUI() {
+  const diffUpdate = document.querySelector("div.radio-button span");
+  const modeUpdate = document.querySelector("div.unlimited span");
+  const diffOption = document.querySelector("div.opt1");
+  const modeOption = document.querySelector("div.opt2");
+  const diffPicked = document.querySelectorAll("div.opt1 form div input");
+  const modePicked = document.querySelectorAll("div.opt2 form div input");
+  const diffDrop = document.querySelector("div.radio-button");
+  const modeDrop = document.querySelector("div.unlimited");
+
+  setupDropdown(diffDrop, diffUpdate, diffOption, diffPicked, "difficulty");
+  setupDropdown(modeDrop, modeUpdate, modeOption, modePicked, "mode");
+
+  styleChecked(state.difficulty, diffPicked);
+  styleChecked(state.mode, modePicked);
+
+  if (diffUpdate) diffUpdate.textContent = state.difficulty;
+  if (modeUpdate) modeUpdate.textContent = state.mode;
+
+  // Dropdown declarations must not be moved up because it will return value:null as it has not been inserted in the DOM until line 67 & 68; REVIEW: this has changed due to this helper function.
+}
 
 // Rendering a Passage
 function renderNewPassage() {
@@ -144,10 +158,12 @@ function renderNewPassage() {
   WPM.textContent = "0";
   accuracy.textContent = "100%";
 
-  if (state.mode === "passage") timerDisplay.textContent = "--";
+  if (state.mode === "Passage") timerDisplay.textContent = "--";
 
-  const passages = state.passages[state.difficulty];
+  // DONE: tricky section here but I resolved this section by making the first character of the difficulty state a capital letter and using the toLowerCase() here, brilliant!
+  const passages = state.passages[state.difficulty.toLowerCase()];
 
+  console.log(passages);
   let randomIndex;
 
   if (passages.length === 1) {
@@ -187,22 +203,17 @@ async function loadData() {
 function styleChecked(value, options) {
   if (value) {
     options.forEach((opt) => {
-      opt.value = opt.value.toLowerCase();
       if (opt.value === value) {
         opt.classList.add("checked");
+        opt.checked = true;
       } else {
         opt.classList.remove("checked");
       }
     });
-  } else {
-    return;
   }
 }
 
 async function init() {
-  styleChecked(state.difficulty, diffPicked);
-  styleChecked(state.mode, modePicked);
-
   const savedBest = localStorage.getItem("storedBestWPM");
 
   if (savedBest) {
@@ -213,8 +224,7 @@ async function init() {
 
   state.passages = data;
 
-  setupDropdown(diffDrop, diffUpdate, diffOption, diffPicked, "difficulty");
-  setupDropdown(modeDrop, modeUpdate, modeOption, modePicked, "mode");
+  setupUI();
 
   renderNewPassage();
 }
@@ -228,8 +238,10 @@ function watchTyping() {
     if (e.key === "Escape") {
       restartTest();
     }
-    if (e.key === "r" && e.ctrlKey) {
-      localStorage.removeItem("bestWPM");
+    // this resets the stored user's achievement.
+    if (e.key === "Delete" && e.shiftKey && e.ctrlKey) {
+      e.preventDefault();
+      localStorage.removeItem("storedBestWPM");
       bestWPM.textContent = 0;
     }
   });
@@ -270,7 +282,7 @@ function handleTyping(e) {
   if (state.currentIndex === 0) {
     if (!state.startTime) {
       state.startTime = Date.now();
-      if (state.mode !== "passage") startTimer();
+      if (state.mode !== "Passage") startTimer();
     }
   }
 
@@ -301,18 +313,22 @@ function setupDropdown(dropdown, update, options, inputs, stateKey) {
   });
 
   const closeUIOptions = (event) => {
-    const value = event.target.value.toLowerCase();
+    event.stopPropagation();
+    const value = event.target.value;
     // update state
     state[stateKey] = value;
 
     // toggling the styling of clicked inputs
     styleChecked(state[stateKey], inputs);
 
-    options.classList.add("hidden");
+    mediaQuery.matches
+      ? options.classList.remove("hidden")
+      : options.classList.add("hidden");
+
     renderNewPassage();
     typingBoard.focus(); // restore typing focus
 
-    //update dropdown label
+    // update dropdown label
     if (update !== null) {
       update.textContent = event.target.value;
     } else {
@@ -341,13 +357,13 @@ function startTimer() {
 }
 
 function updateStats() {
-  if (!state.startTime && state.mode === "timed(60s)") return;
+  if (!state.startTime && state.mode === "Timed(60s)") return;
 
   const elapsed = (Date.now() - state.startTime) / 1000;
   const minutes = elapsed / 60;
 
   if (elapsed <= 0) return;
-  if (elapsed < 2) return;
+  if (elapsed < 1) return;
 
   const wpm = Math.round(state.correctChars / 5 / minutes);
   const acc =
@@ -365,7 +381,19 @@ function endTest() {
   const currentWPM = parseInt(WPM.textContent);
   const storedBestWPM = Number(localStorage.getItem("storedBestWPM") || 0);
 
-  if (currentWPM < storedBestWPM) {
+  if (storedBestWPM === 0) {
+    localStorage.setItem("storedBestWPM", currentWPM);
+    bestWPM.textContent = currentWPM;
+  }
+
+  if (currentWPM <= storedBestWPM) {
+    bestWPM.textContent = storedBestWPM;
+    feedbackHeader.textContent = "Test Complete!";
+    feedback.textContent = "Solid run. Keep pushing to beat your high score.";
+    restart.textContent = "Go Again";
+  }
+
+  if (currentWPM > storedBestWPM && storedBestWPM > 0) {
     localStorage.setItem("storedBestWPM", currentWPM);
     bestWPM.textContent = currentWPM;
     feedbackHeader.textContent = "High Score Smashed!";
@@ -374,6 +402,8 @@ function endTest() {
     imgMain.setAttribute("src", "assets/images/icon-new-pb.svg");
     imgMain.setAttribute("alt", "personal-best");
     body.classList.add("confetti");
+    starr.classList.add("hidden");
+    smallImg.classList.add("hidden");
   }
 
   typingBoard.removeEventListener("keydown", handleTyping);
@@ -387,11 +417,9 @@ function endTest() {
 
   resultWPM.textContent = currentWPM;
   resultAccuracy.textContent = finalAcc;
-  if (resultAccuracy.textContent !== "100%") {
-    resultAccuracy.classList.add("incorrect");
-  } else {
-    resultAccuracy.classList.add("correct");
-  }
+  resultAccuracy.textContent !== "100%"
+    ? resultAccuracy.classList.add("incorrect")
+    : resultAccuracy.classList.add("correct");
   resultCorrectChar.textContent = state.correctChars;
   resultIncorrectChar.textContent = state.mistakes;
 }
