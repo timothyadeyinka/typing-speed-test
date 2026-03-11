@@ -138,18 +138,6 @@ header
   border: none;
   box-shadow: inset 0 0 0 4px hsl(214, 100%, 55%);
 }
-header
-  div.header-bottom
-  div.dropdown
-  div.radio
-  div.options
-  div
-  input[type="button"]:focus-visible {
-  outline: 3px solid hsl(214, 100%, 55%);
-  border: 2px solid hsl(0, 0%, 100%);
-  outline-offset: 3px;
-  transform: scale(1.05);
-}
 header div.header-bottom div.dropdown div.radio div.options div label {
   padding-left: 0.5rem;
 }
@@ -215,72 +203,8 @@ header {
   color: hsl(49, 85%, 70%) !important;
 }
 
-.typing-locked span.active::before {
-  display: none;
-}
-
-.typing-locked #typing-board {
-  filter: blur(6px);
-}
-
-.typing-unlocked {
-  overflow: scroll;
-}
-
-.border {
-  border: none;
-}
-
-.show {
-  display: block;
-}
-
-.bump {
-  margin: -40% 0;
-}
-@media (max-height: 600px) and (orientation: landscape) {
-  .bump {
-    margin: -8% 0;
-  }
-}
-@media (max-height: 450px) and (orientation: landscape) {
-  .bump {
-    margin: -10% 0;
-  }
-}
-@media (max-height: 400px) and (orientation: landscape) {
-  .bump {
-    margin: -15% 0;
-  }
-}
-@media (max-height: 380px) and (orientation: landscape) {
-  .bump {
-    margin: -30% 0;
-  }
-}
-@media (max-height: 365px) and (orientation: landscape) {
-  .bump {
-    margin: -25% 0;
-  }
-}
-@media (max-height: 350px) and (orientation: landscape) {
-  .bump {
-    margin: -15% 0;
-  }
-}
-
-@keyframes blink2 {
-  0%,
-  50%,
-  100% {
-    opacity: 1;
-  }
-  25%,
-  75% {
-    opacity: 0;
-  }
-}
 main.typing-container {
+  overflow: scroll;
   position: relative;
 }
 main.typing-container > div:first-child {
@@ -293,16 +217,12 @@ main.typing-container > div:first-child {
   width: 100%;
   z-index: 100;
   text-align: center;
-  cursor: pointer;
 }
-main.typing-container > div:first-child button.start-test {
+main.typing-container > div:first-child div.start-test {
   border-radius: 0.5rem;
-  background: hsl(214, 100%, 55%);
+  background: hsl(210, 100%, 65%);
   padding: 1rem;
   margin-bottom: 1rem;
-}
-main.typing-container > div:first-child button.start-test:hover {
-  background: hsl(210, 100%, 65%);
 }
 main.typing-container #typing-board {
   white-space: pre-wrap;
@@ -415,7 +335,6 @@ main.typing-container div.first-test-result div.restart {
   align-items: center;
   justify-content: center;
   font-weight: bolder;
-  cursor: pointer;
 }
 
 footer {
@@ -501,18 +420,6 @@ footer div.restart {
   }
   header div.header-bottom div.dropdown p {
     display: block;
-  }
-  main.typing-container div.first-test-result {
-    padding: 2rem 0;
-  }
-  main.typing-container div.first-test-result div.result-details {
-    display: flex;
-    flex-direction: row;
-    gap: 1rem;
-    z-index: 1;
-    justify-content: center;
-    align-items: center;
-    padding: 2rem 0;
   }
 }
 

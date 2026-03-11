@@ -30,19 +30,13 @@
     <div class="header-bottom">
       <div class="labels">
         <div>
-          WPM:&nbsp;&nbsp;<span id="wpm">
-            <!-- filled by main.js -->
-          </span>
+          WPM:&nbsp;&nbsp;<span id="wpm">0</span>
         </div>
         <div>
-          Accuracy:&nbsp;&nbsp;<span id="acc">
-            <!-- filled by main.js -->
-          </span>
+          Accuracy:&nbsp;&nbsp;<span id="acc">100%</span>
         </div>
         <div>
-          Time:&nbsp;&nbsp;<span id="timer">
-            <!-- filled by main.js -->
-          </span>
+          Time:&nbsp;&nbsp;<span id="timer">0:60</span>
         </div>
       </div>
 
@@ -60,9 +54,9 @@
 
   <main class="typing-container">
     <div class="test">
-      <button class="start-test">
+      <div class="start-test">
         Start Typing Test
-      </button>
+      </div>
       <p>Or click the text and start typing</p>
     </div>
     <div id="typing-board" tabindex="0"></div>
@@ -84,7 +78,7 @@
           </span></div>
       </div>
 
-      <div class="restart" tabindex="0" role="button">Beat This Score
+      <div class="restart" onclick="restartTest();">Beat This Score
         <!-- default color of image is white;  -->
         <!-- <img src="assets/images/icon-restart.svg" alt="retry"> -->
       </div>
@@ -96,7 +90,8 @@
   </main>
 
   <footer>
-    <div class="restart">Restart Test&nbsp;&nbsp;<img src="assets/images/icon-restart.svg" alt="restart image"></div>
+    <div class="restart" onclick="restartTest();">Restart Test&nbsp;&nbsp;<img src="assets/images/icon-restart.svg"
+        alt="restart image"></div>
   </footer>
 
 </body>

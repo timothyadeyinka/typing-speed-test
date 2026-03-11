@@ -151,13 +151,6 @@ header {
               box-shadow: inset 0 0 0 4px $Blue-600;
             }
 
-            & input[type="button"]:focus-visible {
-              outline: 3px solid $Blue-600;
-              border: 2px solid $Neutral-0;
-              outline-offset: 3px;
-              transform: scale(1.05);
-            }
-
             & label {
               padding-left: 0.5rem;
             }
@@ -217,23 +210,8 @@ header {
   color: $Yellow-400 !important;
 }
 
-.typing-locked span.active::before {
-  display: none;
-}
-
-.typing-locked #typing-board {
-  filter: blur(6px);
-}
-
-.typing-unlocked {
-  overflow: scroll;
-}
-
-.border {
-  border: none;
-}
-
 main.typing-container {
+  overflow: scroll;
   position: relative;
 
   & > div:first-child {
@@ -246,17 +224,12 @@ main.typing-container {
     width: 100%;
     z-index: 100;
     text-align: center;
-    cursor: pointer;
 
-    & button.start-test {
+    & div.start-test {
       border-radius: 0.5rem;
-      background: $Blue-600;
+      background: $Blue-400;
       padding: 1rem;
       margin-bottom: 1rem;
-
-      &:hover {
-        background: $Blue-400;
-      }
     }
   }
 
@@ -381,7 +354,6 @@ main.typing-container {
       align-items: center;
       justify-content: center;
       font-weight: bolder;
-      cursor: pointer;
     }
   }
 }
@@ -478,21 +450,6 @@ footer {
         & p {
           display: block;
         }
-      }
-    }
-  }
-
-  main.typing-container {
-    & div.first-test-result {
-      padding: 2rem 0;
-      & div.result-details {
-        display: flex;
-        flex-direction: row;
-        gap: 1rem;
-        z-index: 1;
-        justify-content: center;
-        align-items: center;
-        padding: 2rem 0;
       }
     }
   }

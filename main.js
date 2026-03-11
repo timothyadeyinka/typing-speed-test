@@ -8,7 +8,6 @@
 "use strict";
 
 // DOM manipulation
-const header = document.querySelector("header");
 const diff = document.querySelector("div.diff");
 const mode = document.querySelector("div.mode");
 const mainTypingBoard = document.querySelector("main.typing-container");
@@ -32,15 +31,12 @@ const testResults = document.querySelector(".first-test-result");
 const footer = document.querySelector("footer");
 const feedbackHeader = document.querySelector("h2.feedback-header");
 const feedback = document.querySelector("p.feedback");
-const restarts = document.querySelectorAll("div.restart");
+const restart = document.querySelector("div.restart");
 const imgMain = document.querySelector("div.images img.main");
 const starr = document.querySelector("img.starr");
 const smallImg = document.querySelector("img.small");
 const startTest = document.querySelector("div.start-test");
 const test = document.querySelector("div.test");
-const restartsTestFeedback = document.querySelector(
-  "div.first-test-result div.restart",
-);
 
 // DOM manipulation
 const diffSmall = `
@@ -82,7 +78,7 @@ const modeSmall = `
           </div>
 `;
 const modeLarge = `
-<div class="unlimited">Mode: </div>
+<div class="unlimited"><span>Mode: </span></div>
  <div class="options opt2">
             <form>
             <div><input type="button" value="Timed(60s)"><input type="button" value="Passage"></div>
@@ -101,7 +97,7 @@ const applyLogo = (isLarge) => {
 
 // this cannot be done with a load event because the DOM only loads once
 // this needs to come first in order to determine the value of statements in
-// applyLogo function when a change occurs.
+// applyLogo function when a change occurs
 mediaQuery.addEventListener("change", (e) => {
   applyLogo(e.matches);
   setupUI();
@@ -125,7 +121,6 @@ const state = {
   elapsedTime: null,
   totalTyped: 0,
   mistakes: 0,
-  testStarted: false,
 };
 
 function setupUI() {
@@ -222,7 +217,7 @@ function styleChecked(value, options) {
 async function init() {
   const savedBest = localStorage.getItem("storedBestWPM");
 
-  if (savedBest !== null) {
+  if (savedBest) {
     bestWPM.textContent = savedBest;
   }
 
@@ -231,11 +226,9 @@ async function init() {
   state.passages = data;
 
   if (test) {
-    body.classList.add("typing-locked");
-    mainTypingBoard.classList.remove("typing-unlocked");
+    typingBoard.style.filter = "blur(6px)";
+    mainTypingBoard.style.overflow = "hidden";
     footer.classList.add("hidden");
-    // this resets the stored user's achievement.
-    document.addEventListener("keydown", deleteUserHighScore);
   }
 
   setupUI();
@@ -243,39 +236,21 @@ async function init() {
   renderNewPassage();
 }
 
-function deleteUserHighScore(e) {
-  if (e.ctrlKey && e.key === "Backspace") {
-    e.preventDefault();
-    localStorage.removeItem("storedBestWPM");
-    bestWPM.textContent = "0";
-  }
-}
-
 // Handle typing
 function watchTyping() {
-  if (state.testStarted) return;
   if (!typingBoard) return;
-
-  state.testStarted = true;
 
   typingBoard.addEventListener("keydown", handleTyping);
   typingBoard.focus();
 
-  mainTypingBoard.classList.add("typing-unlocked");
+  typingBoard.style.filter = "blur(0px)";
+  mainTypingBoard.style.overflow = "scroll";
+  footer.classList.remove("hidden");
   test.classList.add("hidden");
-  body.classList.remove("typing-locked");
 }
 
-function runEvents() {
-  if (startTest) startTest.addEventListener("click", watchTyping);
-  if (test) test.addEventListener("click", watchTyping);
-  if (restarts)
-    restarts.forEach((restart) => {
-      restart.addEventListener("click", restartTest);
-    });
-}
-
-runEvents();
+startTest.addEventListener("click", watchTyping);
+restart.addEventListener("click", restartTest);
 
 function handleTyping(e) {
   const spans = typingBoard.querySelectorAll("span");
@@ -287,6 +262,12 @@ function handleTyping(e) {
 
   if (e.key === "Escape") {
     restartTest();
+  }
+  // this resets the stored user's achievement.
+  if (e.key === "Delete" && e.shiftKey && e.ctrlKey) {
+    e.preventDefault();
+    localStorage.removeItem("storedBestWPM");
+    bestWPM.textContent = 0;
   }
 
   if (e.key === "Backspace") {
@@ -314,7 +295,6 @@ function handleTyping(e) {
   if (state.currentIndex === 0) {
     if (!state.startTime) {
       state.startTime = Date.now();
-      footer.classList.remove("hidden");
       if (state.mode !== "Passage") startTimer();
     }
   }
@@ -396,7 +376,7 @@ function updateStats() {
   const minutes = elapsed / 60;
 
   if (elapsed <= 0) return;
-  if (elapsed < 1.5) return;
+  if (elapsed < 0.2) return;
 
   const wpm = Math.round(state.correctChars / 5 / minutes);
   const acc =
@@ -427,7 +407,7 @@ function endTest() {
     bestWPM.textContent = storedBestWPM;
     feedbackHeader.textContent = "Test Complete!";
     feedback.textContent = "Solid run. Keep pushing to beat your high score.";
-    restartsTestFeedback.textContent = "Go Again";
+    restart.textContent = "Go Again";
   }
 
   if (currentWPM > storedBestWPM && storedBestWPM > 0) {
@@ -435,7 +415,7 @@ function endTest() {
     bestWPM.textContent = currentWPM;
     feedbackHeader.textContent = "High Score Smashed!";
     feedback.textContent = "You're getting faster. That was incredible typing.";
-    restartsTestFeedback.textContent = "Go Again";
+    restart.textContent = "Go Again";
     imgMain.setAttribute("src", "assets/images/icon-new-pb.svg");
     imgMain.setAttribute("alt", "personal-best");
     body.classList.add("confetti");
@@ -447,7 +427,6 @@ function endTest() {
 
   const finalAcc = accuracy.textContent;
 
-  header.classList.add("border");
   typingBoard.classList.add("hidden");
   footer.classList.add("hidden");
   headerBottom.classList.add("hidden");
@@ -473,7 +452,6 @@ function restartTest() {
   state.totalTyped = 0;
   state.correctChars = 0;
   state.mistakes = 0;
-  state.testStarted = false;
 
   WPM.textContent = 0;
   accuracy.textContent = 100;
@@ -481,7 +459,6 @@ function restartTest() {
 
   typingBoard.addEventListener("keydown", handleTyping);
 
-  header.classList.remove("border");
   typingBoard.classList.remove("hidden");
   footer.classList.remove("hidden");
   headerBottom.classList.remove("hidden");
@@ -490,7 +467,6 @@ function restartTest() {
   timerDisplay.classList.remove("warning");
   accuracy.classList.remove("incorrect");
   accuracy.classList.remove("correct");
-  footer.classList.add("hidden");
 
   renderNewPassage();
 }
