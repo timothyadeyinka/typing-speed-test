@@ -42,6 +42,7 @@ const restartsTestFeedback = document.querySelector(
   "div.first-test-result div.restart",
 );
 const divider = document.querySelector("p.divider");
+const hiddenInput = document.querySelector("hidden-input");
 
 // DOM manipulation
 const diffSmall = `
@@ -282,7 +283,11 @@ function watchTyping() {
   document.removeEventListener("keydown", deleteUserHighScore);
   typingBoard.addEventListener("keydown", handleTyping);
   typingBoard.addEventListener("click", () => {
-    typingBoard.focus();
+    hiddenInput.focus();
+  });
+
+  hiddenInput.addEventListener("input", (e) => {
+    typingBoard.textContent = hiddenInput.value;
   });
 
   mainTypingBoard.classList.add("typing-unlocked");
