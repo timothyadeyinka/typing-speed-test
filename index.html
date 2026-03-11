@@ -20,64 +20,85 @@
 <body>
   <header>
     <div class="header-top">
-      <div class="left">
-        <img src="assets/images/logo-small.svg" alt="project logo-small">
-        <div class="txt">
-          <h1>Typing Speed Test</h1>
-          <p>Type as fast as you can in 60seconds</p>
-        </div>
-
-      </div>
+      <img src="assets/images/logo-small.svg" alt="project logo-small">
 
       <div class="p-best">
         <img src="assets/images/icon-personal-best.svg" alt="achievements">
-        <span>Best: <span class="achieved">92 WPM
-            <!-- test data, will be removed after project is completed --></span></span>
+        <span class="txt">Personal Best:</span>&nbsp;<span class="achieved">92 </span>WPM
       </div>
     </div>
     <div class="header-bottom">
       <div class="labels">
-        <span class="grey"></span>
-      </div>
-      <div>
-        WPM: <span>0</span>
-      </div>
-      <div>
-        Accuracy: <span>100%</span>
-      </div>
-      <div>
-        Time: <span>0:60</span>
+        <div>
+          WPM:&nbsp;&nbsp;<span id="wpm">
+            <!-- filled by main.js -->
+          </span>
+        </div>
+        <div>
+          Accuracy:&nbsp;&nbsp;<span id="acc">
+            <!-- filled by main.js -->
+          </span>
+        </div>
+        <div>
+          Time:&nbsp;&nbsp;<span id="timer">
+            <!-- filled by main.js -->
+          </span>
+        </div>
       </div>
 
       <div class="dropdown">
-        <div class="radio">
-          <div class="radio-button">Hard <img src="assets/images/icon-down-arrow.svg" alt="dropdown icon-down-arrow">
-          </div>
-          <div class="options">
-            <form>
-              <input type="radio" id="easy" name="easy" value="easy">
-              <label for="easy">Easy</label>
-              <input type="radio" id="medium" name="medium" value="medium">
-              <label for="medium">Medium</label>
-              <input type="radio" id="hard" name="hard" value="hard">
-              <label for="hard">Hard</label>
-            </form>
-          </div>
+        <div class="radio diff">
+          <!-- Filled by main.js -->
         </div>
-        <div class="radio">
-          <div>Timed(60s) <img src="assets/images/icon-down-arrow.svg" alt="dropdown icon-down-arrow"></div>
-          <div class="options">
-            <form>
-              <input type="radio" id="timed" name="timed" value="timed">
-              <label for="timed">Timed (60s)</label>
-              <input type="radio" id="passage" name="passage" value="passage">
-              <label for="passage">Passage</label>
-            </form>
-          </div>
+        <p class="divider hidden">|</p>
+        <div class="radio mode">
+          <!-- Filled by main.js -->
         </div>
       </div>
     </div>
   </header>
+
+  <main class="typing-container">
+    <div class="test">
+      <button class="start-test">
+        Start Typing Test
+      </button>
+      <p>Or click the text and start typing</p>
+    </div>
+    <div id="typing-board" tabindex="0"></div>
+    <input type="text" id="hidden-input" class="hidden" autocomplete="off">
+
+    <div class="first-test-result hidden">
+      <div class="images">
+        <img src="assets/images/icon-completed.svg" alt="green mark" class="main">
+      </div>
+
+      <h2 class="feedback-header">Baseline Established!</h2>
+      <p class="feedback">You've set the bar. Now the real challenge begins--time to beat it.</p>
+
+      <div class="result-details">
+        <div>WPM: <br> <span class="result-achieved">85</span></div>
+        <div>Accuracy: <br> <span class="result-acc">90%</span></div>
+        <div>Characters <br> <span>
+            <span class="result-correct correct">120</span> / <span class="result-incorrect incorrect">5</span>
+          </span></div>
+      </div>
+
+      <div class="restart" tabindex="0" role="button">Beat This Score
+        <!-- default color of image is white;  -->
+        <!-- <img src="assets/images/icon-restart.svg" alt="retry"> -->
+      </div>
+
+      <img src="assets/images/pattern-star-2.svg" alt="pattern-star-2" class="small">
+
+      <img src="assets/images/pattern-star-1.svg" alt="pattern-star" class="starr">
+    </div>
+  </main>
+
+  <footer>
+    <div class="restart" tabindex="0" role="button">Restart Test&nbsp;&nbsp;<img src="assets/images/icon-restart.svg"
+        alt="restart image"></div>
+  </footer>
 
 </body>
 

@@ -29,9 +29,18 @@ body {
   color: $Neutral-0;
   background: $Neutral-900;
   padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
 }
-/* Header */
+
 header {
+  width: 100%;
+
   & div.header-top,
   & div.header-bottom div.labels,
   & div.header-bottom div.dropdown {
@@ -71,13 +80,14 @@ header {
 
     & div.labels {
       & div {
-        padding: 1rem;
+        padding: 0 1rem;
         text-align: center;
         color: $Neutral-500;
 
         & span {
           display: block;
           color: $Neutral-0;
+          font-weight: bolder;
           font-size: 1.5rem;
         }
       }
@@ -90,19 +100,456 @@ header {
 
     & div.dropdown {
       justify-content: flex-start;
-      gap: 1rem;
+      color: $Neutral-400;
+
       & div.radio {
         text-align: center;
         border: 1px solid $Neutral-800;
         border-radius: 0.5rem;
         width: 50%;
         padding: 0.5rem 0.25rem;
+        position: relative;
+
+        &.diff {
+          margin-right: 0.5rem;
+        }
+        &.mode {
+          margin-left: 0.5rem;
+        }
+
+        & div.radio-button,
+        & div.unlimited {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          & img {
+            padding-left: 0.5rem;
+          }
+        }
         & div.options {
-          display: none;
+          position: absolute;
+          text-align: left;
+          background: $Neutral-800;
+          border-radius: 0.5rem;
+          padding: 0.5rem 0;
+          width: 100%;
+          margin-top: 1rem;
+          z-index: 100;
+
+          & div {
+            border-bottom: 1px solid $Neutral-500;
+            padding: 0.5rem 0.8rem;
+
+            & input[type="radio"] {
+              -webkit-appearance: none;
+              appearance: none;
+              width: 15px;
+              height: 15px;
+              border: 1px solid $Neutral-400;
+              border-radius: 50%;
+              background-color: $Neutral-800;
+            }
+
+            & input[type="radio"]:checked {
+              background: initial;
+              border: none;
+              box-shadow: inset 0 0 0 4px $Blue-600;
+            }
+
+            & input[type="button"]:focus-visible {
+              outline: 3px solid $Blue-600;
+              border: 2px solid $Neutral-0;
+              outline-offset: 3px;
+              transform: scale(1.05);
+            }
+
+            & label {
+              padding-left: 0.5rem;
+            }
+          }
+
+          & div:last-child {
+            border: none;
+          }
+        }
+        & div input[type="button"] {
+          background: transparent;
+          outline: 0;
+          color: $Neutral-0;
+          padding: 0.3rem 0.5rem;
+          border: 1px solid $Neutral-500;
+          border-radius: 0.3rem;
+          margin: 0 0.25rem;
+          cursor: pointer;
+
+          &:hover {
+            border: 1px solid $Blue-600;
+            color: $Blue-600;
+            animation: blink2 0.5s 5s ease-in-out;
+          }
+
+          @keyframes blink2 {
+            0%,
+            50%,
+            100% {
+              opacity: 1;
+            }
+            25%,
+            75% {
+              opacity: 0.9;
+            }
+          }
         }
       }
     }
   }
 
   border-bottom: 1px solid $Neutral-800;
+}
+
+.hidden {
+  display: none !important;
+}
+.checked {
+  border: 1px solid $Blue-600 !important;
+  color: $Blue-600 !important;
+}
+
+.correct {
+  color: $Green-500 !important;
+}
+
+.incorrect {
+  color: $Red-500 !important;
+}
+
+.confetti {
+  background-image: url("assets/images/pattern-confetti.svg");
+  background-position: 30% 100%;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: auto;
+}
+
+.warning {
+  color: $Yellow-400 !important;
+}
+
+.typing-locked span.active::before {
+  display: none;
+}
+
+.typing-locked #typing-board {
+  filter: blur(6px);
+}
+
+.typing-unlocked {
+  overflow: scroll;
+}
+
+.border {
+  border: none;
+}
+
+.show {
+  display: block;
+}
+
+.bump {
+  margin: -40% 0;
+
+  @media (max-height: 600px) and (orientation: landscape) {
+    margin: -8% 0;
+  }
+  @media (max-height: 450px) and (orientation: landscape) {
+    margin: -10% 0;
+  }
+  @media (max-height: 400px) and (orientation: landscape) {
+    margin: -15% 0;
+  }
+  @media (max-height: 380px) and (orientation: landscape) {
+    margin: -30% 0;
+  }
+  @media (max-height: 365px) and (orientation: landscape) {
+    margin: -25% 0;
+  }
+  @media (max-height: 350px) and (orientation: landscape) {
+    margin: -15% 0;
+  }
+}
+
+@keyframes blink2 {
+  0%,
+  50%,
+  100% {
+    opacity: 1;
+  }
+  25%,
+  75% {
+    opacity: 0;
+  }
+}
+
+main.typing-container {
+  position: relative;
+
+  & > div:first-child {
+    display: flex;
+    position: absolute;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    z-index: 100;
+    text-align: center;
+    cursor: pointer;
+
+    & button.start-test {
+      border-radius: 0.5rem;
+      background: $Blue-600;
+      padding: 1rem;
+      margin-bottom: 1rem;
+
+      &:hover {
+        background: $Blue-400;
+      }
+    }
+  }
+
+  #typing-board {
+    white-space: pre-wrap;
+    position: relative;
+    font-size: 1.5rem;
+    padding: 1.5rem 0;
+    overflow: visible;
+
+    & span {
+      color: $Neutral-500;
+      position: relative;
+    }
+
+    & .incorrect {
+      border-bottom: 2px solid $Red-500;
+    }
+
+    & .active {
+      position: relative;
+    }
+
+    & .active::before {
+      content: "";
+      position: absolute;
+      left: -2px;
+      top: 0;
+      width: 2px;
+      height: 1.5rem;
+      background: $Neutral-0;
+      animation: blink 1s infinite;
+    }
+    @keyframes blink {
+      50% {
+        opacity: 0;
+      }
+    }
+  }
+
+  div.first-test-result {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: $Neutral-500;
+    position: relative;
+
+    & > img.small {
+      position: absolute;
+      top: 3rem;
+      left: 0;
+      width: 1.5rem;
+    }
+
+    & > img:last-child {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 15%;
+    }
+
+    & div.images {
+      width: 100%;
+      text-align: center;
+
+      & img.small {
+        float: left;
+        padding-top: 2rem;
+      }
+    }
+
+    & h2 {
+      color: $Neutral-0;
+    }
+
+    & div.result-details {
+      width: 100%;
+      z-index: 100;
+      & div {
+        border-radius: 0.5rem;
+        border: 1px solid $Neutral-500;
+        margin: 1rem 0;
+        padding: 1rem;
+        text-align: left;
+
+        & span.result-achieved {
+          color: $Neutral-0;
+        }
+
+        & span {
+          font-size: 1.5rem;
+          font-weight: bolder;
+        }
+      }
+      & div:first-child,
+      & div:last-child {
+        margin: 0;
+      }
+    }
+
+    & div.restart {
+      background: $Neutral-0;
+      color: $Neutral-900;
+      border-radius: 0.5rem;
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bolder;
+      cursor: pointer;
+    }
+  }
+}
+
+footer {
+  border-top: 1px solid $Neutral-800;
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  color: $Neutral-0;
+  background: $Neutral-900;
+  padding-bottom: 0;
+  width: 100%;
+
+  & div.restart {
+    padding: 1rem;
+    background: $Neutral-800;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+  }
+}
+
+@media (min-width: 600px) {
+  body {
+    margin: 0 3rem;
+    @media (min-width: 1000px) {
+      margin: 0 6rem;
+    }
+    @media (min-width: 1440px) {
+      margin: 0 10rem;
+    }
+  }
+  header {
+    & div.header-bottom {
+      display: flex;
+      flex-direction: column;
+      @media (min-width: 1200px) {
+        flex-direction: row;
+      }
+      justify-content: space-between;
+
+      & div.labels {
+        & div {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+
+          & span {
+            font-size: 1.2rem;
+          }
+        }
+      }
+      & div.dropdown {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        text-align: center;
+        align-items: center;
+
+        & div.radio {
+          border: none;
+          width: auto;
+          & div {
+            display: flex;
+          }
+        }
+
+        & div.radio.diff {
+          display: flex;
+          flex-direction: row;
+
+          & div.radio-button {
+            justify-content: flex-start;
+          }
+
+          & div.options {
+            position: static;
+            z-index: inherit;
+            background: none;
+            margin-top: 0;
+          }
+        }
+
+        & div.radio.mode {
+          display: flex;
+          flex-direction: row;
+          justify-content: flex-end;
+
+          & div.unlimited {
+            justify-content: flex-end;
+          }
+
+          & div.options {
+            position: static;
+            z-index: inherit;
+            background: none;
+            margin-top: 0;
+          }
+        }
+      }
+    }
+  }
+
+  main.typing-container {
+    scrollbar-width: none; // Fire fox
+    -ms-overflow-style: none; // IE
+
+    &::webkit-scrollbar {
+      display: none; // chrome
+    }
+
+    & div.first-test-result {
+      padding: 2rem 0;
+      & div.result-details {
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+        z-index: 1;
+        justify-content: center;
+        align-items: center;
+        padding: 2rem 0;
+      }
+    }
+  }
 }
