@@ -323,6 +323,7 @@ main.typing-container {
     font-size: 1.5rem;
     padding: 1.5rem 0;
     overflow: visible;
+    cursor: text;
 
     & span {
       color: $Neutral-500;
