@@ -25,7 +25,9 @@ body {
 header {
   width: 100%;
 }
-header div.header-top, header div.header-bottom div.labels, header div.header-bottom div.dropdown {
+header div.header-top,
+header div.header-bottom div.labels,
+header div.header-bottom div.dropdown {
   display: flex;
   justify-content: space-between;
   flex-direction: row;
@@ -90,12 +92,14 @@ header div.header-bottom div.dropdown div.radio.diff {
 header div.header-bottom div.dropdown div.radio.mode {
   margin-left: 0.5rem;
 }
-header div.header-bottom div.dropdown div.radio div.radio-button, header div.header-bottom div.dropdown div.radio div.unlimited {
+header div.header-bottom div.dropdown div.radio div.radio-button,
+header div.header-bottom div.dropdown div.radio div.unlimited {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-header div.header-bottom div.dropdown div.radio div.radio-button img, header div.header-bottom div.dropdown div.radio div.unlimited img {
+header div.header-bottom div.dropdown div.radio div.radio-button img,
+header div.header-bottom div.dropdown div.radio div.unlimited img {
   padding-left: 0.5rem;
 }
 header div.header-bottom div.dropdown div.radio div.options {
@@ -112,7 +116,13 @@ header div.header-bottom div.dropdown div.radio div.options div {
   border-bottom: 1px solid hsl(240, 3%, 46%);
   padding: 0.5rem 0.8rem;
 }
-header div.header-bottom div.dropdown div.radio div.options div input[type=radio] {
+header
+  div.header-bottom
+  div.dropdown
+  div.radio
+  div.options
+  div
+  input[type="radio"] {
   -webkit-appearance: none;
   appearance: none;
   width: 15px;
@@ -121,12 +131,24 @@ header div.header-bottom div.dropdown div.radio div.options div input[type=radio
   border-radius: 50%;
   background-color: hsl(0, 0%, 15%);
 }
-header div.header-bottom div.dropdown div.radio div.options div input[type=radio]:checked {
+header
+  div.header-bottom
+  div.dropdown
+  div.radio
+  div.options
+  div
+  input[type="radio"]:checked {
   background: initial;
   border: none;
   box-shadow: inset 0 0 0 4px hsl(214, 100%, 55%);
 }
-header div.header-bottom div.dropdown div.radio div.options div input[type=button]:focus-visible {
+header
+  div.header-bottom
+  div.dropdown
+  div.radio
+  div.options
+  div
+  input[type="button"]:focus-visible {
   outline: 3px solid hsl(214, 100%, 55%);
   border: 2px solid hsl(0, 0%, 100%);
   outline-offset: 3px;
@@ -138,7 +160,7 @@ header div.header-bottom div.dropdown div.radio div.options div label {
 header div.header-bottom div.dropdown div.radio div.options div:last-child {
   border: none;
 }
-header div.header-bottom div.dropdown div.radio div input[type=button] {
+header div.header-bottom div.dropdown div.radio div input[type="button"] {
   background: transparent;
   outline: 0;
   color: hsl(0, 0%, 100%);
@@ -148,16 +170,19 @@ header div.header-bottom div.dropdown div.radio div input[type=button] {
   margin: 0 0.25rem;
   cursor: pointer;
 }
-header div.header-bottom div.dropdown div.radio div input[type=button]:hover {
+header div.header-bottom div.dropdown div.radio div input[type="button"]:hover {
   border: 1px solid hsl(214, 100%, 55%);
   color: hsl(214, 100%, 55%);
   animation: blink2 0.5s 5s ease-in-out;
 }
 @keyframes blink2 {
-  0%, 50%, 100% {
+  0%,
+  50%,
+  100% {
     opacity: 1;
   }
-  25%, 75% {
+  25%,
+  75% {
     opacity: 0.9;
   }
 }
@@ -249,10 +274,13 @@ header {
 }
 
 @keyframes blink2 {
-  0%, 50%, 100% {
+  0%,
+  50%,
+  100% {
     opacity: 1;
   }
-  25%, 75% {
+  25%,
+  75% {
     opacity: 0;
   }
 }
@@ -356,14 +384,19 @@ main.typing-container div.first-test-result div.result-details div {
   padding: 1rem;
   text-align: left;
 }
-main.typing-container div.first-test-result div.result-details div span.result-achieved {
+main.typing-container
+  div.first-test-result
+  div.result-details
+  div
+  span.result-achieved {
   color: hsl(0, 0%, 100%);
 }
 main.typing-container div.first-test-result div.result-details div span {
   font-size: 1.5rem;
   font-weight: bolder;
 }
-main.typing-container div.first-test-result div.result-details div:first-child, main.typing-container div.first-test-result div.result-details div:last-child {
+main.typing-container div.first-test-result div.result-details div:first-child,
+main.typing-container div.first-test-result div.result-details div:last-child {
   margin: 0;
 }
 main.typing-container div.first-test-result div.restart {
