@@ -280,12 +280,18 @@ main.typing-container > div:first-child button.start-test {
 main.typing-container > div:first-child button.start-test:hover {
   background: hsl(210, 100%, 65%);
 }
+main.typing-container input#hidden-input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
 main.typing-container #typing-board {
   white-space: pre-wrap;
   position: relative;
   font-size: 1.5rem;
   padding: 1.5rem 0;
   overflow: visible;
+  cursor: text;
 }
 main.typing-container #typing-board span {
   color: hsl(240, 3%, 46%);

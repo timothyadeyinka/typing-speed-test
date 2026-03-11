@@ -42,7 +42,7 @@ const restartsTestFeedback = document.querySelector(
   "div.first-test-result div.restart",
 );
 const divider = document.querySelector("p.divider");
-const hiddenInput = document.querySelector("hidden-input");
+const hiddenInput = document.querySelector("#hidden-input");
 
 // DOM manipulation
 const diffSmall = `
@@ -135,6 +135,7 @@ const state = {
   totalTyped: 0,
   mistakes: 0,
   testStarted: false,
+  testEnded: false,
 };
 
 function setupUI() {
@@ -199,6 +200,7 @@ function renderNewPassage() {
   });
 
   state.currentIndex = 0;
+  state.testEnded = false;
 
   // 👇 add active cursor to first letter
   updateCursor();
@@ -253,8 +255,6 @@ async function init() {
 
     // this allows the user to reset the stored user's achievement only when the test hasn't started.
     document.addEventListener("keydown", deleteUserHighScore);
-
-    // document.removeEventListener("click", closeDropDown);
   }
 
   setupUI();
@@ -281,13 +281,10 @@ function watchTyping() {
   state.testStarted = true;
 
   document.removeEventListener("keydown", deleteUserHighScore);
-  typingBoard.addEventListener("keydown", handleTyping);
-  typingBoard.addEventListener("click", () => {
-    hiddenInput.focus();
-  });
 
-  hiddenInput.addEventListener("input", (e) => {
-    typingBoard.textContent = hiddenInput.value;
+  typingBoard.addEventListener("keydown", handleTyping);
+  hiddenInput.addEventListener("click", () => {
+    typingBoard.focus();
   });
 
   mainTypingBoard.classList.add("typing-unlocked");
@@ -501,6 +498,8 @@ function endTest() {
     : resultAccuracy.classList.add("correct");
   resultCorrectChar.textContent = state.correctChars;
   resultIncorrectChar.textContent = state.mistakes;
+
+  state.testEnded = true;
 }
 
 function restartTest() {
