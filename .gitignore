@@ -41,6 +41,7 @@ Thumbs.db
 *.md
 !README.md
 *.json
+!data.json
 !package.json
 design/
 assets/fonts
