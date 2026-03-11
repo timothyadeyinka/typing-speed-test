@@ -22,6 +22,7 @@ body {
   position: relative;
 }
 
+/* Header */
 header {
   width: 100%;
 }
@@ -76,6 +77,7 @@ header div.header-bottom div.labels div:nth-child(2) {
 }
 header div.header-bottom div.dropdown {
   justify-content: flex-start;
+  gap: 1rem;
   color: hsl(240, 1%, 59%);
 }
 header div.header-bottom div.dropdown div.radio {
@@ -85,12 +87,6 @@ header div.header-bottom div.dropdown div.radio {
   width: 50%;
   padding: 0.5rem 0.25rem;
   position: relative;
-}
-header div.header-bottom div.dropdown div.radio.diff {
-  margin-right: 0.5rem;
-}
-header div.header-bottom div.dropdown div.radio.mode {
-  margin-left: 0.5rem;
 }
 header div.header-bottom div.dropdown div.radio div.radio-button,
 header div.header-bottom div.dropdown div.radio div.unlimited {
@@ -340,6 +336,17 @@ main.typing-container #typing-board .active::before {
     opacity: 0;
   }
 }
+@keyframes blink {
+  0%,
+  50%,
+  100% {
+    opacity: 1;
+  }
+  25%,
+  75% {
+    opacity: 0;
+  }
+}
 main.typing-container div.first-test-result {
   display: flex;
   flex-direction: column;
@@ -430,28 +437,13 @@ footer div.restart {
 }
 
 @media (min-width: 600px) {
-  body {
-    margin: 0 3rem;
-  }
-}
-@media (min-width: 600px) and (min-width: 1000px) {
-  body {
-    margin: 0 6rem;
-  }
-}
-@media (min-width: 600px) and (min-width: 1440px) {
-  body {
-    margin: 0 10rem;
-  }
-}
-@media (min-width: 600px) {
   header div.header-bottom {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
   }
 }
-@media (min-width: 600px) and (min-width: 1200px) {
+@media (min-width: 600px) and (min-width: 900px) {
   header div.header-bottom {
     flex-direction: row;
   }
@@ -474,7 +466,6 @@ footer div.restart {
   }
   header div.header-bottom div.dropdown div.radio {
     border: none;
-    width: auto;
   }
   header div.header-bottom div.dropdown div.radio div {
     display: flex;
@@ -482,6 +473,7 @@ footer div.restart {
   header div.header-bottom div.dropdown div.radio.diff {
     display: flex;
     flex-direction: row;
+    width: 100%;
   }
   header div.header-bottom div.dropdown div.radio.diff div.radio-button {
     justify-content: flex-start;
@@ -495,6 +487,7 @@ footer div.restart {
   header div.header-bottom div.dropdown div.radio.mode {
     display: flex;
     flex-direction: row;
+    width: 100%;
     justify-content: flex-end;
   }
   header div.header-bottom div.dropdown div.radio.mode div.unlimited {
@@ -506,12 +499,8 @@ footer div.restart {
     background: none;
     margin-top: 0;
   }
-  main.typing-container {
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
-  main.typing-container::webkit-scrollbar {
-    display: none;
+  header div.header-bottom div.dropdown p {
+    display: block;
   }
   main.typing-container div.first-test-result {
     padding: 2rem 0;

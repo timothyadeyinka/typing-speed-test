@@ -38,6 +38,7 @@ body {
   position: relative;
 }
 
+/* Header */
 header {
   width: 100%;
 
@@ -100,6 +101,7 @@ header {
 
     & div.dropdown {
       justify-content: flex-start;
+      gap: 1rem;
       color: $Neutral-400;
 
       & div.radio {
@@ -109,13 +111,6 @@ header {
         width: 50%;
         padding: 0.5rem 0.25rem;
         position: relative;
-
-        &.diff {
-          margin-right: 0.5rem;
-        }
-        &.mode {
-          margin-left: 0.5rem;
-        }
 
         & div.radio-button,
         & div.unlimited {
@@ -185,19 +180,6 @@ header {
           &:hover {
             border: 1px solid $Blue-600;
             color: $Blue-600;
-            animation: blink2 0.5s 5s ease-in-out;
-          }
-
-          @keyframes blink2 {
-            0%,
-            50%,
-            100% {
-              opacity: 1;
-            }
-            25%,
-            75% {
-              opacity: 0.9;
-            }
           }
         }
       }
@@ -249,45 +231,6 @@ header {
 
 .border {
   border: none;
-}
-
-.show {
-  display: block;
-}
-
-.bump {
-  margin: -40% 0;
-
-  @media (max-height: 600px) and (orientation: landscape) {
-    margin: -8% 0;
-  }
-  @media (max-height: 450px) and (orientation: landscape) {
-    margin: -10% 0;
-  }
-  @media (max-height: 400px) and (orientation: landscape) {
-    margin: -15% 0;
-  }
-  @media (max-height: 380px) and (orientation: landscape) {
-    margin: -30% 0;
-  }
-  @media (max-height: 365px) and (orientation: landscape) {
-    margin: -25% 0;
-  }
-  @media (max-height: 350px) and (orientation: landscape) {
-    margin: -15% 0;
-  }
-}
-
-@keyframes blink2 {
-  0%,
-  50%,
-  100% {
-    opacity: 1;
-  }
-  25%,
-  75% {
-    opacity: 0;
-  }
 }
 
 main.typing-container {
@@ -351,6 +294,18 @@ main.typing-container {
       50% {
         opacity: 0;
       }
+    }
+  }
+
+  @keyframes blink {
+    0%,
+    50%,
+    100% {
+      opacity: 1;
+    }
+    25%,
+    75% {
+      opacity: 0;
     }
   }
 
@@ -451,20 +406,11 @@ footer {
 }
 
 @media (min-width: 600px) {
-  body {
-    margin: 0 3rem;
-    @media (min-width: 1000px) {
-      margin: 0 6rem;
-    }
-    @media (min-width: 1440px) {
-      margin: 0 10rem;
-    }
-  }
   header {
     & div.header-bottom {
       display: flex;
       flex-direction: column;
-      @media (min-width: 1200px) {
+      @media (min-width: 900px) {
         flex-direction: row;
       }
       justify-content: space-between;
@@ -489,7 +435,6 @@ footer {
 
         & div.radio {
           border: none;
-          width: auto;
           & div {
             display: flex;
           }
@@ -498,6 +443,7 @@ footer {
         & div.radio.diff {
           display: flex;
           flex-direction: row;
+          width: 100%;
 
           & div.radio-button {
             justify-content: flex-start;
@@ -514,6 +460,7 @@ footer {
         & div.radio.mode {
           display: flex;
           flex-direction: row;
+          width: 100%;
           justify-content: flex-end;
 
           & div.unlimited {
@@ -527,18 +474,15 @@ footer {
             margin-top: 0;
           }
         }
+
+        & p {
+          display: block;
+        }
       }
     }
   }
 
   main.typing-container {
-    scrollbar-width: none; // Fire fox
-    -ms-overflow-style: none; // IE
-
-    &::webkit-scrollbar {
-      display: none; // chrome
-    }
-
     & div.first-test-result {
       padding: 2rem 0;
       & div.result-details {
