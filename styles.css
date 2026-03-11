@@ -22,7 +22,6 @@ body {
   position: relative;
 }
 
-/* Header */
 header {
   width: 100%;
 }
@@ -75,7 +74,6 @@ header div.header-bottom div.labels div:nth-child(2) {
 }
 header div.header-bottom div.dropdown {
   justify-content: flex-start;
-  gap: 1rem;
   color: hsl(240, 1%, 59%);
 }
 header div.header-bottom div.dropdown div.radio {
@@ -85,6 +83,12 @@ header div.header-bottom div.dropdown div.radio {
   width: 50%;
   padding: 0.5rem 0.25rem;
   position: relative;
+}
+header div.header-bottom div.dropdown div.radio.diff {
+  margin-right: 0.5rem;
+}
+header div.header-bottom div.dropdown div.radio.mode {
+  margin-left: 0.5rem;
 }
 header div.header-bottom div.dropdown div.radio div.radio-button, header div.header-bottom div.dropdown div.radio div.unlimited {
   display: flex;
@@ -147,6 +151,15 @@ header div.header-bottom div.dropdown div.radio div input[type=button] {
 header div.header-bottom div.dropdown div.radio div input[type=button]:hover {
   border: 1px solid hsl(214, 100%, 55%);
   color: hsl(214, 100%, 55%);
+  animation: blink2 0.5s 5s ease-in-out;
+}
+@keyframes blink2 {
+  0%, 50%, 100% {
+    opacity: 1;
+  }
+  25%, 75% {
+    opacity: 0.9;
+  }
 }
 header {
   border-bottom: 1px solid hsl(0, 0%, 15%);
@@ -197,6 +210,52 @@ header {
   border: none;
 }
 
+.show {
+  display: block;
+}
+
+.bump {
+  margin: -40% 0;
+}
+@media (max-height: 600px) and (orientation: landscape) {
+  .bump {
+    margin: -8% 0;
+  }
+}
+@media (max-height: 450px) and (orientation: landscape) {
+  .bump {
+    margin: -10% 0;
+  }
+}
+@media (max-height: 400px) and (orientation: landscape) {
+  .bump {
+    margin: -15% 0;
+  }
+}
+@media (max-height: 380px) and (orientation: landscape) {
+  .bump {
+    margin: -30% 0;
+  }
+}
+@media (max-height: 365px) and (orientation: landscape) {
+  .bump {
+    margin: -25% 0;
+  }
+}
+@media (max-height: 350px) and (orientation: landscape) {
+  .bump {
+    margin: -15% 0;
+  }
+}
+
+@keyframes blink2 {
+  0%, 50%, 100% {
+    opacity: 1;
+  }
+  25%, 75% {
+    opacity: 0;
+  }
+}
 main.typing-container {
   position: relative;
 }
@@ -250,14 +309,6 @@ main.typing-container #typing-board .active::before {
 }
 @keyframes blink {
   50% {
-    opacity: 0;
-  }
-}
-@keyframes blink {
-  0%, 50%, 100% {
-    opacity: 1;
-  }
-  25%, 75% {
     opacity: 0;
   }
 }
@@ -346,13 +397,28 @@ footer div.restart {
 }
 
 @media (min-width: 600px) {
+  body {
+    margin: 0 3rem;
+  }
+}
+@media (min-width: 600px) and (min-width: 1000px) {
+  body {
+    margin: 0 6rem;
+  }
+}
+@media (min-width: 600px) and (min-width: 1440px) {
+  body {
+    margin: 0 10rem;
+  }
+}
+@media (min-width: 600px) {
   header div.header-bottom {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
   }
 }
-@media (min-width: 600px) and (min-width: 900px) {
+@media (min-width: 600px) and (min-width: 1200px) {
   header div.header-bottom {
     flex-direction: row;
   }
@@ -375,6 +441,7 @@ footer div.restart {
   }
   header div.header-bottom div.dropdown div.radio {
     border: none;
+    width: auto;
   }
   header div.header-bottom div.dropdown div.radio div {
     display: flex;
@@ -382,7 +449,6 @@ footer div.restart {
   header div.header-bottom div.dropdown div.radio.diff {
     display: flex;
     flex-direction: row;
-    width: 100%;
   }
   header div.header-bottom div.dropdown div.radio.diff div.radio-button {
     justify-content: flex-start;
@@ -396,7 +462,6 @@ footer div.restart {
   header div.header-bottom div.dropdown div.radio.mode {
     display: flex;
     flex-direction: row;
-    width: 100%;
     justify-content: flex-end;
   }
   header div.header-bottom div.dropdown div.radio.mode div.unlimited {
@@ -408,8 +473,12 @@ footer div.restart {
     background: none;
     margin-top: 0;
   }
-  header div.header-bottom div.dropdown p {
-    display: block;
+  main.typing-container {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  main.typing-container::webkit-scrollbar {
+    display: none;
   }
   main.typing-container div.first-test-result {
     padding: 2rem 0;

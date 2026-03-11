@@ -41,6 +41,7 @@ const test = document.querySelector("div.test");
 const restartsTestFeedback = document.querySelector(
   "div.first-test-result div.restart",
 );
+const divider = document.querySelector("p.divider");
 
 // DOM manipulation
 const diffSmall = `
@@ -85,7 +86,7 @@ const modeLarge = `
 <div class="unlimited">Mode: </div>
  <div class="options opt2">
             <form>
-            <div><input type="button" value="Timed(60s)"><input type="button" value="Passage"></div>
+            <div><input type="button" value="Timed (60s)"><input type="button" value="Passage"></div>
             </form>
           </div>`;
 
@@ -97,6 +98,13 @@ const applyLogo = (isLarge) => {
 
   diff.innerHTML = isLarge ? diffLarge : diffSmall;
   mode.innerHTML = isLarge ? modeLarge : modeSmall;
+  if (isLarge) {
+    divider.classList.add("show");
+    divider.classList.remove("hidden");
+  } else {
+    divider.classList.remove("show");
+    divider.classList.add("hidden");
+  }
 };
 
 // this cannot be done with a load event because the DOM only loads once
@@ -114,7 +122,7 @@ applyLogo(mediaQuery.matches);
 
 const state = {
   difficulty: "Hard",
-  mode: "Timed(60s)",
+  mode: "Timed (60s)",
   lastIndex: null,
   currentIndex: 0,
   correctChars: 0,
@@ -219,6 +227,13 @@ function styleChecked(value, options) {
   }
 }
 
+function adjustStartButton() {
+  if (!test) return;
+  const isOverFlowing = body.clientHeight < body.scrollHeight;
+
+  isOverFlowing ? test.classList.add("bump") : test.classList.remove("bump");
+}
+
 async function init() {
   const savedBest = localStorage.getItem("storedBestWPM");
 
@@ -234,17 +249,23 @@ async function init() {
     body.classList.add("typing-locked");
     mainTypingBoard.classList.remove("typing-unlocked");
     footer.classList.add("hidden");
-    // this resets the stored user's achievement.
+
+    // this allows the user to reset the stored user's achievement only when the test hasn't started.
     document.addEventListener("keydown", deleteUserHighScore);
+
+    // document.removeEventListener("click", closeDropDown);
   }
 
   setupUI();
 
   renderNewPassage();
+  adjustStartButton();
+  window.addEventListener("resize", adjustStartButton); // Brilliant!
 }
 
 function deleteUserHighScore(e) {
-  if (e.ctrlKey && e.key === "Backspace") {
+  if (state.testStarted) return;
+  if (e.ctrlKey && e.shiftKey && e.key === "Backspace") {
     e.preventDefault();
     localStorage.removeItem("storedBestWPM");
     bestWPM.textContent = "0";
@@ -258,6 +279,7 @@ function watchTyping() {
 
   state.testStarted = true;
 
+  document.removeEventListener("keydown", deleteUserHighScore);
   typingBoard.addEventListener("keydown", handleTyping);
   typingBoard.focus();
 
@@ -338,12 +360,24 @@ function handleTyping(e) {
   if (state.currentIndex === spans.length) endTest();
 }
 
-// Dropdown logic
+// Dropdown logic :::: REVIEW: closeDropDown to stop event from firing when mediaQuery matches.
 function setupDropdown(dropdown, update, options, inputs, stateKey) {
   // Drop down UI
-  dropdown.addEventListener("click", () => {
-    options.classList.toggle("hidden");
-  });
+  if (!mediaQuery.matches) {
+    dropdown.addEventListener("click", (e) => {
+      options.classList.toggle("hidden");
+    });
+    document.addEventListener("click", closeDropDown, { once: true });
+  }
+
+  function closeDropDown(e) {
+    document.addEventListener("click", (e) => {
+      if (!dropdown.contains(e.target)) {
+        e.stopPropagation();
+        options.classList.add("hidden");
+      }
+    });
+  }
 
   const closeUIOptions = (event) => {
     event.stopPropagation();
