@@ -283,9 +283,12 @@ function watchTyping() {
   document.removeEventListener("keydown", deleteUserHighScore);
 
   typingBoard.addEventListener("keydown", handleTyping);
-  hiddenInput.addEventListener("click", () => {
+  typingBoard.addEventListener("click", () => {
     typingBoard.focus();
+    hiddenInput.focus();
   });
+
+  hiddenInput.addEventListener("keydown", handleTyping);
 
   mainTypingBoard.classList.add("typing-unlocked");
   test.classList.add("hidden");
