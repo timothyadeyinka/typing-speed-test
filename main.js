@@ -363,6 +363,7 @@ function handleTyping(e) {
 
   state.currentIndex++;
 
+  hiddenInput.addEventListener("");
   hiddenInput.value = "";
 
   updateStats();
