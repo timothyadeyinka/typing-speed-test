@@ -289,7 +289,19 @@ function watchTyping() {
   });
 
   hiddenInput.addEventListener("keydown", handleTyping);
-  hiddenInput.addEventListener("input", handleTyping);
+
+  hiddenInput.addEventListener("input", (e) => {
+    const char = hiddenInput.value;
+    if (!char) return;
+
+    handleTyping({
+      key: char,
+    });
+
+    hiddenInput.value = "";
+  });
+
+  hiddenInput.focus();
 
   mainTypingBoard.classList.add("typing-unlocked");
   test.classList.add("hidden");
@@ -362,9 +374,6 @@ function handleTyping(e) {
   state.totalTyped++;
 
   state.currentIndex++;
-
-  hiddenInput.addEventListener("");
-  hiddenInput.value = "";
 
   updateStats();
   updateCursor();
