@@ -287,19 +287,12 @@ function watchTyping() {
     typingBoard.focus();
     hiddenInput.focus();
   });
-  // typingBoard.addEventListener("keyup", watchTyping);
+  typingBoard.addEventListener("keyup", watchTyping);
 
-  hiddenInput.addEventListener("keyup", handleTyping);
+  // hiddenInput.addEventListener("keyup", handleTyping);
 
   hiddenInput.addEventListener("input", (e) => {
-    const char = hiddenInput.value;
-    if (!char) return;
-
-    handleTyping({
-      key: char,
-    });
-
-    hiddenInput.value = "";
+    typingBoard.innerText = e.target.value;
   });
 
   hiddenInput.focus();
