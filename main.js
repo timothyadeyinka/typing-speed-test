@@ -289,18 +289,18 @@ function watchTyping() {
   });
   // typingBoard.addEventListener("keyup", watchTyping);
 
-  hiddenInput.addEventListener("input", handleTyping);
+  typingBoard.addEventListener("input", handleTyping);
 
-  // hiddenInput.addEventListener("input", (e) => {
-  //   const char = hiddenInput.value;
-  //   if (!char) return;
+  hiddenInput.addEventListener("input", (e) => {
+    const char = e.target.value;
+    if (!char) return;
 
-  //   handleTyping({
-  //     key: char,
-  //   });
+    handleTyping({
+      key: char,
+    });
 
-  //   e.target.value = "";
-  // });
+    e.target.value = "";
+  });
 
   hiddenInput.focus();
 
