@@ -287,13 +287,20 @@ function watchTyping() {
     typingBoard.focus();
     hiddenInput.focus();
   });
-  typingBoard.addEventListener("keyup", watchTyping);
+  // typingBoard.addEventListener("keyup", watchTyping);
 
-  // hiddenInput.addEventListener("keyup", handleTyping);
+  hiddenInput.addEventListener("input", handleTyping);
 
-  hiddenInput.addEventListener("input", (e) => {
-    typingBoard.innerText = e.target.value;
-  });
+  // hiddenInput.addEventListener("input", (e) => {
+  //   const char = hiddenInput.value;
+  //   if (!char) return;
+
+  //   handleTyping({
+  //     key: char,
+  //   });
+
+  //   e.target.value = "";
+  // });
 
   hiddenInput.focus();
 
