@@ -265,6 +265,7 @@ async function init() {
 }
 
 function deleteUserHighScore(e) {
+  // at the moment, this can only be achieved only on desktop view!
   if (state.testStarted) return;
   if (e.ctrlKey && e.shiftKey && e.key === "Backspace") {
     e.preventDefault();
@@ -285,11 +286,7 @@ function watchTyping() {
   typingBoard.addEventListener("keydown", handleTyping);
   typingBoard.addEventListener("click", () => {
     typingBoard.focus();
-    hiddenInput.focus();
   });
-  // typingBoard.addEventListener("keyup", watchTyping);
-
-  // typingBoard.addEventListener("input", handleTyping);
 
   hiddenInput.addEventListener("input", (e) => {
     const char = e.target.value;
@@ -302,8 +299,6 @@ function watchTyping() {
 
     e.target.value = "";
   });
-
-  hiddenInput.focus();
 
   mainTypingBoard.classList.add("typing-unlocked");
   test.classList.add("hidden");
