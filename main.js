@@ -295,11 +295,12 @@ function watchTyping() {
     const char = e.target.value;
     if (!char) return;
 
+    console.log(char);
     handleTyping({
       key: char,
     });
 
-    // e.target.value = "";
+    e.target.value = "";
   });
 
   hiddenInput.focus();
@@ -326,7 +327,9 @@ function handleTyping(e) {
   if (e.key.length > 1 && e.key !== "Backspace") return;
 
   // to stop the space-bar auto scroll effect on the typing board.
-  e.preventDefault();
+  if (e && typeof e.preventDefault === "function") {
+    e.preventDefault();
+  }
 
   if (e.key === "Escape") {
     restartTest();
