@@ -326,7 +326,7 @@ main.typing-container {
     height: 100%;
   }
 
-  #typing-board {
+  & #typing-board {
     white-space: pre-wrap;
     position: relative;
     font-size: 1.5rem;

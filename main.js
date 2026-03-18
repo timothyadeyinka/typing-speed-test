@@ -105,7 +105,6 @@ const applyLogo = (isLarge) => {
   } else {
     divider.classList.remove("show");
     divider.classList.add("hidden");
-    hiddenInput.classList.add("hidden");
   }
 };
 
@@ -286,7 +285,6 @@ function watchTyping() {
   typingBoard.addEventListener("keydown", handleTyping);
   typingBoard.addEventListener("click", () => {
     typingBoard.focus();
-    hiddenInput.focus();
   });
 
   hiddenInput.addEventListener("keydown", handleTyping);
