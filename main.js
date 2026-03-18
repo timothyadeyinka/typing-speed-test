@@ -289,7 +289,7 @@ function watchTyping() {
   });
   // typingBoard.addEventListener("keyup", watchTyping);
 
-  typingBoard.addEventListener("input", handleTyping);
+  // typingBoard.addEventListener("input", handleTyping);
 
   hiddenInput.addEventListener("input", (e) => {
     const char = e.target.value;
@@ -299,7 +299,7 @@ function watchTyping() {
       key: char,
     });
 
-    e.target.value = "";
+    // e.target.value = "";
   });
 
   hiddenInput.focus();
