@@ -105,6 +105,7 @@ const applyLogo = (isLarge) => {
   } else {
     divider.classList.remove("show");
     divider.classList.add("hidden");
+    hiddenInput.classList.add("hidden");
   }
 };
 
