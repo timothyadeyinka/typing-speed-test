@@ -76,7 +76,7 @@ const modeSmall = `
             <form>
              <div> 
               <input type="radio" id="Timed (60s)" name="mode" value="Timed (60s)">
-              <label for="Timed (60)">Timed (60s)</label> </div>
+              <label for="Timed (60s)">Timed (60s)</label> </div>
              <div> 
               <input type="radio" id="Passage" name="mode" value="Passage">
               <label for="Passage">Passage</label></div>
@@ -293,7 +293,7 @@ function watchTyping() {
     const char = e.target.value;
     if (!char) return;
 
-    console.log(char);
+    // Normal typing
     handleTyping({
       key: char,
     });
@@ -333,8 +333,8 @@ function handleTyping(e) {
 
   if (e.key === "Backspace") {
     if (state.currentIndex === 0) return;
-
     state.currentIndex--;
+
     const span = spans[state.currentIndex];
     if (span.classList.contains("correct")) {
       state.correctChars--;
