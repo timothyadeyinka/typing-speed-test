@@ -286,8 +286,9 @@ function watchTyping() {
   typingBoard.addEventListener("click", () => {
     typingBoard.focus();
   });
+  // typingBoard.addEventListener("keyup", watchTyping);
 
-  hiddenInput.addEventListener("keydown", handleTyping);
+  hiddenInput.addEventListener("keyup", handleTyping);
 
   hiddenInput.addEventListener("input", (e) => {
     const char = hiddenInput.value;
@@ -300,7 +301,7 @@ function watchTyping() {
     hiddenInput.value = "";
   });
 
-  hiddenInput.focus();
+  // hiddenInput.focus();
 
   mainTypingBoard.classList.add("typing-unlocked");
   test.classList.add("hidden");
