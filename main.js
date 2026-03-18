@@ -286,6 +286,7 @@ function watchTyping() {
   typingBoard.addEventListener("keydown", handleTyping);
   typingBoard.addEventListener("click", () => {
     typingBoard.focus();
+    hiddenInput.focus();
   });
 
   hiddenInput.addEventListener("input", (e) => {
